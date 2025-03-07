@@ -35,6 +35,8 @@ export const Slider = () => {
         <Image
           alt="carBefore"
           style={{ objectFit: 'cover' }}
+          width={600}
+          height={600}
           loading="lazy"
           draggable={false}
           src="/pictures/carBefore.webp"
@@ -46,6 +48,8 @@ export const Slider = () => {
         >
           <Image
             style={{ objectFit: 'cover' }}
+            width={600}
+            height={600}
             loading="lazy"
             draggable={false}
             alt="carAfter"

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { DatePickerDemo } from "../contact/DatePicker";
+import { DatePickerDemo } from "@/components/homeComponents/contact/DatePicker";
 
 export default function Contact() {
   return (

@@ -11,6 +11,8 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from "@/components/ui/skeleton"
+
 
 interface ChartData {
   month: string;
@@ -61,10 +63,10 @@ const chartConfig = {
   },
 };
 
-export function Charts({ data }: { data: ChartData[] }) {
+export function Charts({ data, loading }: { data: ChartData[], loading: boolean }) {
   return (
     <div className="grid gap-6 md:grid-cols-2">
-      <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-lg">
+      {loading ? <Skeleton className="w-[470px] h-[400px] rounded-lg" /> : <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-lg">
         <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent backdrop-blur-sm" />
         <CardHeader className="relative">
           <CardTitle className="text-lg font-semibold text-cloud-dark">
@@ -100,9 +102,9 @@ export function Charts({ data }: { data: ChartData[] }) {
             </ResponsiveContainer>
           </div>
         </CardContent>
-      </Card>
+      </Card>}
 
-      <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-lg">
+      {loading ? <Skeleton className="w-[470px] h-[400px] rounded-lg" /> : <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-lg">
         <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent backdrop-blur-sm" />
         <CardHeader className="relative">
           <CardTitle className="text-lg font-semibold text-cloud-dark">
@@ -140,7 +142,7 @@ export function Charts({ data }: { data: ChartData[] }) {
             </ResponsiveContainer>
           </div>
         </CardContent>
-      </Card>
+      </Card>}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Lock } from 'lucide-react'
 
 export default function Footer() {
 
@@ -78,9 +79,15 @@ export default function Footer() {
           </div>
         </div>
         <div
-          className="border-t border-cloud-light/20 mt-12 pt-8 text-center text-cloud-light"
+          className="border-t border-cloud-light/20 mt-12 pt-8 text-center text-cloud-light flex justify-center items-center"
         >
-          <p>&copy; {currentYear} Rise & Shine. Todos los derechos reservados.</p>
+          <p className="ml-auto">&copy; {currentYear} Rise & Shine. Todos los derechos reservados.</p>
+          <a
+            href="/dashboard"
+            className="hover:text-white transition-colors duration-200 ml-auto"
+          >
+            <Lock width={14} height={14}/>
+          </a>
         </div>
       </div>
     </footer>

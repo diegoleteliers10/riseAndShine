@@ -1,5 +1,5 @@
 import React from 'react'
-import { ImageCarousel } from '../homeImages/imageCarousel'
+import { ImageCarousel } from '@/components/homeComponents/images/imageCarousel'
 
 export default function Galeria() {
   return (
