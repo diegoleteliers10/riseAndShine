@@ -17,7 +17,7 @@ export default function Hero() {
           </h1>
           <p className="hero_subtitle" data-aos="fade-top" data-aos-delay="600">
             En Rise & Shine nos especializamos en darle a tu auto el cuidado que
-            merece, con servicios personalizados que se adaptan a tus necesidades.
+            merece, con servicios de alta calidad a precios accesibles.
           </p>
           <div className="flex md:items-center space-x-4 mt-6">
             <a
@@ -33,6 +33,7 @@ export default function Hero() {
               Contáctanos
             </a>
           </div>
+          <p className="text-[12px] mt-4">* Valido solo para las comunas de las condes, vitacura, y lo barnechea.</p>
         </div>
         <Image
           src="/carHero.png"

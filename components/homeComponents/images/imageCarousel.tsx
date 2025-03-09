@@ -42,7 +42,7 @@ export function ImageCarousel() {
   }, [api])
 
   return (
-    <div data-aos="zoom-in">
+    <div data-aos="zoom-in" data-aos-delay="200">
       <div>
       <Carousel setApi={setApi} className="w-full">
         <CarouselContent>

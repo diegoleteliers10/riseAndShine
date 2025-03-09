@@ -1,47 +1,67 @@
-'use client'
-
 import DashboardLayout from "@/components/layout/DashboardLayout"
 import { DashboardStats } from "@/components/dashboard/DashboardStats";
 import { Charts } from "@/components/dashboard/Charts";
 import { data } from '@/utils/data'
-import { useEffect, useState } from "react";
 import { TableData } from "@/components/dashboard/TableData";
+import { DateDisplay } from '@/components/DateDisplay';
+import { LogoutButton } from "@/components/dashboard/LogoutButton";
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
 
-function Dashboard() {
+async function getUserName() {
+  const supabase = createServerComponentClient({ cookies })
+  
+  // Obtener la sesión actual
+  const { data: { session } } = await supabase.auth.getSession()
 
-  const [orders, setOrders] = useState([]) // Inicializa como array vacío
-  const [clients, setClients] = useState([]) // Inicializa como array vacío
-  const [loading, setLoading] = useState(true) // Estado de carga
+  if (session?.user) {
+    try {
+      // Consultar la tabla profiles
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('nombre')
+        .eq('user_id', session.user.id)
+        .single()
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Obtener órdenes
-        const ordersRes = await fetch('http://localhost:3000/api/orders')
-        const ordersData = await ordersRes.json()
-        setOrders(Array.isArray(ordersData) ? ordersData : [ordersData].filter(Boolean))
-
-        // Obtener clientes
-        const clientsRes = await fetch('http://localhost:3000/api/clientes')
-        const clientsData = await clientsRes.json()
-        setClients(Array.isArray(clientsData) ? clientsData : [clientsData].filter(Boolean))
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      } finally {
-        setLoading(false)
+      if (error) {
+        console.error('Error al obtener el nombre del usuario:', error)
+        return session.user.email?.split('@')[0] || 'Usuario' // Fallback al email si hay error
       }
+
+      return data.nombre || session.user.email?.split('@')[0] || 'Usuario'
+    } catch (error) {
+      console.error('Error:', error)
+      return session.user.email?.split('@')[0] || 'Usuario'
     }
+  }
 
-    fetchData()
-  }, [])
+  return 'Usuario' // Valor por defecto si no hay sesión
+}
 
-  const dayToday = new Date().toLocaleDateString("es-ES", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+async function getData() {
 
+  try {
+    const [ordersRes, clientsRes] = await Promise.all([
+      fetch('http://localhost:3000/api/orders'),
+      fetch('http://localhost:3000/api/clientes')
+    ])
+
+    const orders = await ordersRes.json()
+    const clients = await clientsRes.json()
+
+    return {
+      orders: Array.isArray(orders) ? orders : [orders].filter(Boolean),
+      clients: Array.isArray(clients) ? clients : [clients].filter(Boolean),
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error)
+    return { orders: [], clients: [] }
+  }
+}
+
+export default async function Dashboard() {
+  const { orders, clients } = await getData()
+  const userName = await getUserName()
 
   return (
     <DashboardLayout>
@@ -55,22 +75,22 @@ function Dashboard() {
               >
                 <div className="space-y-1">
                   <h1 className="text-3xl font-semibold text-cloud-dark">
-                    Bienvenido Manuel José!
+                    Bienvenido {userName}!
                   </h1>
                   <p className="text-sm text-cloud-dark/60">
                     Estas son las estadisticas de tu servicio
                   </p>
                 </div>
-                <span
-                  className="text-sm text-cloud-dark/60 bg-white/40 px-4 py-2 rounded-lg backdrop-blur-xs border border-cloud-light/20"
-                  >{dayToday}</span
-                >
+                <div className="flex items-center gap-4">
+                  <DateDisplay />
+                  <LogoutButton />
+                </div>
               </header>
 
-              <DashboardStats orders={orders} clients={clients} loading={loading}/>
+              <DashboardStats orders={orders} clients={clients} />
 
               <section className="pt-4">
-                <Charts data={data} loading={loading}/>
+                <Charts data={data} />
               </section>
 
               <section className="pt-4">
@@ -84,7 +104,7 @@ function Dashboard() {
                     {orders.length} órdenes totales
                   </span>
                 </div>
-                <TableData orders={orders} loading={loading}/>
+                <TableData orders={orders}/>
               </section>
             </div>
           </main>
@@ -92,5 +112,3 @@ function Dashboard() {
     </DashboardLayout>
   )
 }
-
-export default Dashboard

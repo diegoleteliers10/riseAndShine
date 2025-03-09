@@ -1,3 +1,4 @@
+'use client'
 import {
   Dialog,
   DialogContent,
@@ -18,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import Link from "next/link"
 
 
 import {
@@ -29,10 +31,12 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Pencil } from 'lucide-react';
+import { Pencil, AlertCircle, CheckCircle, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { useState } from "react";
+import { toast } from "sonner"
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-import { Skeleton } from "@/components/ui/skeleton"
+// import { Skeleton } from "@/components/ui/skeleton"
 
 const statusStyles = {
   pendiente: 'bg-cloud-light/20 text-cloud-dark border-cloud-light/30',
@@ -46,15 +50,89 @@ const statusLabels = {
   realizado: 'Realizado',
 };
 
+interface Order {
+  id: number;
+  cliente: {
+    nombre: string;
+  };
+  servicio: string;
+  fecha_servicio: string;
+  fecha_pedido: string;
+  estado: 'pendiente' | 'en-progreso' | 'realizado';
+  monto: number;
+}
 
-export function TableData({ orders, loading }: { orders: any, loading: boolean }) {
+const ITEMS_PER_PAGE = 10;
 
-  const [newStatus, setNewStatus] = useState('')
-  console.log(newStatus)
+export function TableData({ orders }: { orders: Order[] }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [newStatus, setNewStatus] = useState('');
+  const { replace } = useRouter();
+
+
+  const pathname = usePathname();
+  const searchTerm = searchParams.get('search') || '';
+  const currentPage = Number(searchParams.get('page')) || 1;
+
+  // Filtrar solo si existe un término de búsqueda
+  const filteredOrders = searchTerm
+    ? orders.filter((order) =>
+        order.cliente.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        order.servicio.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : orders;
+
+  // Calcular paginación con los resultados (filtrados o todos)
+  const totalPages = Math.ceil(filteredOrders.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentOrders = filteredOrders.slice(startIndex, endIndex);
+
+  // Handle page changes
+  const createPageUrl = (newPage: number) => {
+    if (newPage < 1 || newPage > totalPages) return pathname;
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', newPage.toString());
+    return `${pathname}?${params.toString()}`;
+  };
+
+  // Mantener la función de búsqueda como está
+  const handleSearch = (term: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set('search', term);
+      // Resetear a la página 1 cuando se realiza una búsqueda
+      params.set('page', '1');
+    } else {
+      params.delete('search');
+      params.set('page', '1');
+    }
+    replace(`${pathname}?${params.toString()}`, {
+      scroll: false,
+    });
+  };
 
   const updateStatus = async (orderId:number , status:string) => {
+    // Validar si el nuevo estado está vacío
+    if (!status || status.trim() === '') {
+      toast.custom(() => (
+        <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-lg">
+          <AlertCircle className="w-5 h-5 text-red-600" />
+          <div>
+            <p className="font-medium text-red-600">Error al actualizar estado</p>
+            <p className="text-sm text-red-400">No se ha proporcionado un nuevo estado.</p>
+          </div>
+        </div>
+      ), {
+        duration: 4000,
+        position: 'bottom-right',
+      });
+      return;
+    }
+
     try {
-      const response = await fetch(`http://localhost:3000/api/orders?id=${orderId}&newStatus=${status}`, { // Corregido aquí
+      const response = await fetch(`http://localhost:3000/api/orders?id=${orderId}&newStatus=${status}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -65,21 +143,33 @@ export function TableData({ orders, loading }: { orders: any, loading: boolean }
         throw new Error('Failed to update order status');
       }
       setNewStatus('');
-      window.location.reload();
+      toast.custom(() => (
+        <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-lg border border-cloud-light/20">
+          <CheckCircle className="w-5 h-5 text-cloud-dark" />
+          <div>
+            <p className="font-medium text-cloud-dark">Estado de pedido actualizado</p>
+            <p className="text-sm text-cloud-dark/70">El estado del pedido <b>{orderId}</b> ha sido actualizado a <b>{status}</b>.</p>
+          </div>
+        </div>
+      ), {
+        duration: 4000,
+        position: 'bottom-right'
+      });
+      router.refresh()
     } catch (error) {
       console.error('Error updating order status:', error);
     }
   };
 
-  if(loading){
-    return (
-      <div className="flex flex-col space-y-2">
-        <Skeleton className="w-auto h-[70px]" />
-        <Skeleton className="w-auto h-[70px]" />
-        <Skeleton className="w-auto h-[70px]" />
-      </div>
-    )
-  }
+  // if(loading){
+  //   return (
+  //     <div className="flex flex-col space-y-2">
+  //       <Skeleton className="w-auto h-[70px]" />
+  //       <Skeleton className="w-auto h-[70px]" />
+  //       <Skeleton className="w-auto h-[70px]" />
+  //     </div>
+  //   )
+  // }
 
   return (
    <div className="relative overflow-hidden rounded-xl border border-cloud-light/20 bg-white/50 shadow-sm transition-all duration-300 hover:shadow-lg">
@@ -98,8 +188,7 @@ export function TableData({ orders, loading }: { orders: any, loading: boolean }
             </TableRow>
           </TableHeader>
           <TableBody>
-            {
-              orders.map((order) => (
+            {currentOrders.map((order) => (
               <TableRow key={order.id} className="border-cloud-light/20 hover:bg-cloud-light/5">
                 <TableCell className="font-medium text-cloud-dark">{order.id}</TableCell>
                 <TableCell className="font-medium text-cloud-dark">{order.cliente.nombre}</TableCell>
@@ -151,7 +240,6 @@ export function TableData({ orders, loading }: { orders: any, loading: boolean }
                           </Label>
 
                           <Select onValueChange={(e)=>{
-                            console.log(e)
                             setNewStatus(e);
                           }}>
                             <SelectTrigger className="w-[180px]">
@@ -161,7 +249,7 @@ export function TableData({ orders, loading }: { orders: any, loading: boolean }
                               <SelectGroup>
                                 <SelectLabel className="text-cloud-dark">Estado</SelectLabel>
                                 <SelectItem value="pendiente">Pendiente</SelectItem>
-                                <SelectItem value="en progreso">En progreso</SelectItem>
+                                <SelectItem value="en-progreso">En progreso</SelectItem>
                                 <SelectItem value="realizado">Realizado</SelectItem>
                               </SelectGroup>
                             </SelectContent>
@@ -171,16 +259,72 @@ export function TableData({ orders, loading }: { orders: any, loading: boolean }
                       <DialogFooter className="bg-white">
                         <Button type="submit" onClick={()=>{
                           updateStatus(order.id,newStatus);
-                        }} className="text-white bg-cloud">Actualizar Estado</Button>
+                        }} className="text-white bg-cloud hover:bg-cloud-dark">Actualizar Estado</Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
                 </TableCell>
-              </TableRow>))
-            }
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
-      </div>
+
+        {/* Pagination Controls */}
+        <div className="flex items-center justify-between px-4 py-4 border-t border-cloud-light/20">
+          <div className="flex items-center gap-4">
+            {/* Search Bar */}
+
+            <span className="text-sm text-cloud-dark">
+              Página {currentPage} de {totalPages}
+            </span>
+          </div>
+          
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Buscar por cliente o servicio..."
+              defaultValue={searchParams.get('search') || ''}
+              onChange={(e) => handleSearch(e.target.value)}
+              className="w-[500px] px-4 py-2.5 pl-10 text-sm border-2 rounded-lg border-cloud-light/30 focus:outline-none focus:border-cloud-dark/40 transition-colors duration-200"
+            />
+            <Search className="absolute left-3 top-3 h-5 w-5 text-cloud-dark/40" />
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              disabled={currentPage === 1}
+              className={`px-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+            >
+              <Link 
+                replace 
+                scroll={false}
+                href={currentPage === 1 ? '#' : createPageUrl(currentPage - 1)}
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Link>
+            </Button>
+
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              disabled={currentPage === totalPages}
+              className={`px-2 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+            >
+              <Link 
+                replace 
+                scroll={false}
+                href={currentPage === totalPages ? '#' : createPageUrl(currentPage + 1)}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </div> 
    </div>
   )
 }

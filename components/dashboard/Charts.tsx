@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import {
   AreaChart,
@@ -11,7 +12,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from "@/components/ui/skeleton"
+// import { Skeleton } from "@/components/ui/skeleton"
 
 
 interface ChartData {
@@ -63,10 +64,11 @@ const chartConfig = {
   },
 };
 
-export function Charts({ data, loading }: { data: ChartData[], loading: boolean }) {
+export function Charts({ data }: { data: ChartData[] }) {
   return (
     <div className="grid gap-6 md:grid-cols-2">
-      {loading ? <Skeleton className="w-[470px] h-[400px] rounded-lg" /> : <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-lg">
+      {/* {loading ? <Skeleton className="w-[470px] h-[400px] rounded-lg" /> :  */}
+      <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-lg">
         <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent backdrop-blur-sm" />
         <CardHeader className="relative">
           <CardTitle className="text-lg font-semibold text-cloud-dark">
@@ -102,9 +104,11 @@ export function Charts({ data, loading }: { data: ChartData[], loading: boolean 
             </ResponsiveContainer>
           </div>
         </CardContent>
-      </Card>}
+      </Card>
+      {/* } */}
 
-      {loading ? <Skeleton className="w-[470px] h-[400px] rounded-lg" /> : <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-lg">
+      {/* {loading ? <Skeleton className="w-[470px] h-[400px] rounded-lg" /> :  */}
+      <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-lg">
         <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent backdrop-blur-sm" />
         <CardHeader className="relative">
           <CardTitle className="text-lg font-semibold text-cloud-dark">
@@ -142,7 +146,8 @@ export function Charts({ data, loading }: { data: ChartData[], loading: boolean 
             </ResponsiveContainer>
           </div>
         </CardContent>
-      </Card>}
+      </Card>
+      {/* } */}
     </div>
   );
 }

@@ -1,14 +1,20 @@
+'use client'
+
 import Image from "next/image";
 import { Lock } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 export default function Footer() {
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
 
-  const currentYear = new Date().getFullYear();
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear())
+  }, [])
 
   return (
     <footer className="bg-cloud-dark text-white py-12">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-xl font-bold mb-4">Rise & Shine</h3>
             <p className="text-cloud-light">
@@ -48,15 +54,15 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div>
+          {/* <div>
             <h4 className="text-lg font-semibold mb-4">Horario</h4>
             <ul className="text-cloud-light">
               <li>Lunes - Viernes: 8:00 - 19:00</li>
               <li>Sábado: 9:00 - 17:00</li>
               <li>Domingo: 10:00 - 15:00</li>
             </ul>
-          </div>
-          <div>
+          </div> */}
+          <div className="ml-auto">
             <h4 className="text-lg font-semibold mb-4">Síguenos</h4>
             <div className="flex space-x-4">
               {/* <!-- <a href="#" className="text-cloud-light hover:text-white">

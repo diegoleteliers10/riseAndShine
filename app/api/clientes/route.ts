@@ -5,8 +5,6 @@ import { createClient } from '@/utils/supabase/client'
 export async function GET(request: Request) {
   const supabase = createClient()
   try {
-    console.log(supabase)
-
   const { data, error } = await supabase
     .from('clientes')
     .select(`*`)

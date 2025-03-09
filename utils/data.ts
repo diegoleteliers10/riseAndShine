@@ -22,7 +22,7 @@ export const services = [
 export const prices = [
   {
     name: "Limpieza Exterior",
-    price: "$20",
+    price: "$10.000",
     features: [
       "Lavado de carrocería",
       "Limpieza de llantas",
@@ -32,7 +32,7 @@ export const prices = [
   },
   {
     name: "Limpieza Interior",
-    price: "$25",
+    price: "$12.000",
     features: [
       "Aspirado completo",
       "Limpieza de tapicería",
@@ -42,7 +42,7 @@ export const prices = [
   },
   {
     name: "Servicio Completo",
-    price: "$40",
+    price: "$20.000",
     features: [
       "Limpieza exterior completa",
       "Limpieza interior completa",

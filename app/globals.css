@@ -177,3 +177,7 @@ html {
   scroll-behavior: smooth;
   overflow-x: hidden;
 }
+
+.error-description {
+  color: '#ff0000'
+}

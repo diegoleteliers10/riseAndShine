@@ -43,6 +43,21 @@ export async function PUT(request: Request) {
       )
     }
 
+    // Obtener el estado actual del pedido
+    const { data: currentOrder } = await supabase
+      .from('pedidos')
+      .select('estado')
+      .eq('id', id)
+      .single()
+
+    // Verificar si el estado actual es igual al nuevo estado
+    if (currentOrder?.estado === newStatus) {
+      return NextResponse.json(
+        { error: `El estado nuevo (${newStatus}) es igual al estado actual. No se realizó ningún cambio.` },
+        { status: 400 }
+      )
+    }
+
     // Actualizar el pedido en Supabase
     const { data, error } = await supabase
       .from('pedidos')
@@ -57,7 +72,7 @@ export async function PUT(request: Request) {
       )
     }
 
-    return NextResponse.json({message: `Pedido con id ${id} actualizado con exito. Nuevo estado: ${newStatus}`}, { status: 200 })
+    return NextResponse.json({message: `Pedido con id ${id} actualizado con exito. Nuevo estado: ${newStatus}`,data:data}, { status: 200 })
   } catch (error) {
     return NextResponse.json(
       { error: 'Error interno del servidor' },
