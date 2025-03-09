@@ -89,7 +89,7 @@ export default function Footer() {
         >
           <p className="ml-auto">&copy; {currentYear} Rise & Shine. Todos los derechos reservados.</p>
           <a
-            href="/dashboard"
+            href="/login"
             className="hover:text-white transition-colors duration-200 ml-auto"
           >
             <Lock width={14} height={14}/>
