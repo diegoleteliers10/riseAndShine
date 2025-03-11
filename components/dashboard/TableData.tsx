@@ -189,7 +189,7 @@ export function TableData({ orders }: { orders: Order[] }) {
           </TableHeader>
           <TableBody>
             <Suspense>
-              {currentOrders.length > 0 ? currentOrders.map((order) => (
+              {currentOrders.map((order) => (
                 <TableRow key={order.id} className="border-cloud-light/20 hover:bg-cloud-light/5">
                   <TableCell className="font-medium text-cloud-dark">{order.id}</TableCell>
                   <TableCell className="font-medium text-cloud-dark">{order.cliente.nombre}</TableCell>
