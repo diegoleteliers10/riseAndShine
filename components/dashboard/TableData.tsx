@@ -173,7 +173,7 @@ export function TableData({ orders }: { orders: Order[] }) {
   // }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-[500px]">
       <div className="relative overflow-hidden rounded-xl border border-cloud-light/20 bg-white/50 shadow-sm transition-all duration-300 hover:shadow-lg flex-grow">
         <Table>
           <TableHeader>
