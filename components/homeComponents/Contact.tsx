@@ -1,12 +1,12 @@
 'use client'
 import Image from "next/image";
 import { DatePickerDemo } from "@/components/homeComponents/contact/DatePicker";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { AlertCircle, CheckCircle } from "lucide-react";
 
-export default function Contact() {
+function ContactContent() {
   const [formData, setFormData] = useState({
     // Datos del cliente
     nombre: '',
@@ -233,4 +233,12 @@ export default function Contact() {
       </div>
     </section>
   )
+}
+
+export default function Contact() {
+  return (
+    <Suspense fallback={<div>Cargando formulario...</div>}>
+      <ContactContent />
+    </Suspense>
+  );
 }

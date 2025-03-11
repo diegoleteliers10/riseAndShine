@@ -6,6 +6,7 @@ import "react-day-picker/style.css";
 import * as React from "react"
 import { CalendarIcon } from "lucide-react"
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import { Suspense } from 'react';
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -15,7 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-export function DatePickerDemo() {
+function DatePickerContent() {
   const [date, setDate] = React.useState<Date>()
   const defaultClassNames = getDefaultClassNames();
   const searchParams = useSearchParams()
@@ -67,6 +68,14 @@ export function DatePickerDemo() {
         />
       </PopoverContent>
     </Popover>
-  )
+  );
+}
+
+export function DatePickerDemo() {
+  return (
+    <Suspense fallback={<div>Cargando selector de fecha...</div>}>
+      <DatePickerContent />
+    </Suspense>
+  );
 }
 
