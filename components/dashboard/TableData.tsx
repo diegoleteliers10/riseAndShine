@@ -173,7 +173,7 @@ export function TableData({ orders }: { orders: Order[] }) {
   // }
 
   return (
-    <div className="flex flex-col h-[600px]">
+    <div className="flex flex-col h-[580px]">
       <div className="relative overflow-hidden rounded-xl border border-cloud-light/20 bg-white/50 shadow-sm transition-all duration-300 hover:shadow-lg flex-grow">
         <Table>
           <TableHeader>
@@ -266,21 +266,17 @@ export function TableData({ orders }: { orders: Order[] }) {
                     </Dialog>
                   </TableCell>
                 </TableRow>
-              )) : (
-                <div className="flex items-center justify-center w-auto h-auto">
-                  <span>No se encontraron pedidos</span>
-                </div>
-              )}
+              ))}
             </Suspense>
           </TableBody>
         </Table>
       </div>
 
       {/* Pagination Controls */}
-      <div className="flex items-center justify-between px-4 py-4 border-t border-cloud-light/20">
+      <div className="flex items-center justify-between px-4 py-4 border-t border-cloud-light/20 relative top-[-80px]">
         <div className="flex items-center gap-4">
           <span className="text-sm text-cloud-dark">
-            Página {currentPage} de {totalPages}
+            Página {currentPage} de {totalPages} <p className="inline-block text-[12px]">{currentOrders.length} resultados encontrados</p>
           </span>
         </div>
         
