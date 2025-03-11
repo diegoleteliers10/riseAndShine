@@ -23,12 +23,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(redirectUrl)
     }
 
-    // Proteger rutas específicas de la API
-    const protectedApiRoutes = ['/api/clientes', '/api/order', '/api/orders'];
-    if (!session && protectedApiRoutes.includes(request.nextUrl.pathname)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     return res
   } catch (error) {
     console.error('Middleware error:', error)
@@ -38,5 +32,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/api/:path*'] // Mantener el matcher para las rutas de la API
+  matcher: ['/dashboard/:path*', '/login']
 }
