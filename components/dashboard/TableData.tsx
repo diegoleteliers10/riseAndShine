@@ -173,7 +173,7 @@ export function TableData({ orders }: { orders: Order[] }) {
   // }
 
   return (
-   <div className="relative overflow-hidden rounded-xl border border-cloud-light/20 bg-white/50 shadow-sm transition-all duration-300 hover:shadow-lg">
+   <div className="relative overflow-hidden rounded-xl border border-cloud-light/20 bg-white/50 shadow-sm transition-all duration-300 hover:shadow-lg h-[500px]">
       <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent backdrop-blur-sm" />
       <div className="relative">
         <Table>
@@ -190,7 +190,7 @@ export function TableData({ orders }: { orders: Order[] }) {
           </TableHeader>
           <TableBody>
             <Suspense>
-              {currentOrders.map((order) => (
+              {currentOrders ? currentOrders.map((order) => (
                 <TableRow key={order.id} className="border-cloud-light/20 hover:bg-cloud-light/5">
                   <TableCell className="font-medium text-cloud-dark">{order.id}</TableCell>
                   <TableCell className="font-medium text-cloud-dark">{order.cliente.nombre}</TableCell>
@@ -267,7 +267,11 @@ export function TableData({ orders }: { orders: Order[] }) {
                     </Dialog>
                   </TableCell>
                 </TableRow>
-              ))}
+              )) : (
+                <div className="flex items-center justify-center w-auto h-auto">
+                  <span>No se encontraron pedidos</span>
+                </div>
+              )}
             </Suspense>
           </TableBody>
         </Table>
