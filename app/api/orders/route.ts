@@ -2,8 +2,15 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/client'
 
 // GET /api/orders
-export async function GET() {
+export async function GET(request : Request) {
   const supabase = createClient()
+
+  const token = request.headers.get('Authorization')?.split(' ')[1] // Obtener el token del encabezado
+
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const { data, error } = await supabase
       .from('pedidos')

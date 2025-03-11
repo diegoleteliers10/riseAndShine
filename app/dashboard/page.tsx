@@ -44,10 +44,11 @@ async function getUserName() {
   return 'Usuario' // Valor por defecto si no hay sesión
 }
 
-async function getData() {
+async function getData(token: string) {
   try {
     const headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     };
 
     const [ordersRes, clientsRes] = await Promise.all([
@@ -81,8 +82,16 @@ async function getData() {
 }
 
 export default async function Dashboard() {
-  const { orders, clients } = await getData()
-  const userName = await getUserName()
+  const supabase = createServerComponentClient({ cookies });
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.access_token) {
+    console.error('No access token found');
+    return null;
+  }
+  const token = session.access_token;
+
+  const { orders, clients } = await getData(token);
+  const userName = await getUserName();
 
   return (
     <DashboardLayout>

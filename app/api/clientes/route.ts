@@ -5,6 +5,13 @@ import { createClient } from '@/utils/supabase/client'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(request: Request) {
   const supabase = createClient()
+
+  const token = request.headers.get('Authorization')?.split(' ')[1] // Obtener el token del encabezado
+
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
   const { data, error } = await supabase
     .from('clientes')
