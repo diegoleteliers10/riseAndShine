@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/client'
 
 // GET /api/orders
-export async function GET(request: Request) {
+export async function GET() {
   const supabase = createClient()
   try {
     const { data, error } = await supabase
@@ -22,7 +22,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(responseData, { status: 200 })
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ error: error }, { status: 500 })
   }
 }
 
@@ -75,7 +75,7 @@ export async function PUT(request: Request) {
     return NextResponse.json({message: `Pedido con id ${id} actualizado con exito. Nuevo estado: ${newStatus}`,data:data}, { status: 200 })
   } catch (error) {
     return NextResponse.json(
-      { error: 'Error interno del servidor' },
+      { error: `Error al procesar la solicitud, ${error}` },
       { status: 500 }
     )
   }

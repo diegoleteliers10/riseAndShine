@@ -22,7 +22,7 @@ export async function POST() {
     )
   } catch (error) {
     return NextResponse.json(
-      { error: 'Error al procesar la solicitud' },
+      { error: `Error al procesar la solicitud, ${error}` },
       { status: 500 }
     )
   }
