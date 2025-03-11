@@ -24,9 +24,9 @@ export async function middleware(request: NextRequest) {
     }
 
     // Proteger las rutas de la API
-    if (!session && request.nextUrl.pathname.startsWith('/api/')) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // if (!session && request.nextUrl.pathname.startsWith('/api/')) {
+    //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // }
 
     return res
   } catch (error) {
@@ -37,5 +37,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/api/:path*']
+  matcher: ['/dashboard/:path*', '/login']
 }
