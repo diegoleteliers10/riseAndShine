@@ -7,7 +7,12 @@ import { DateDisplay } from '@/components/DateDisplay';
 import { LogoutButton } from "@/components/dashboard/LogoutButton";
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description: 'Dashboard de Rise & Shine - Servicio de limpieza de autos',
+};
 
 async function getUserName() {
   const supabase = createServerComponentClient({ cookies })
