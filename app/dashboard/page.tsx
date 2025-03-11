@@ -39,26 +39,38 @@ async function getUserName() {
 }
 
 async function getData() {
-  const headers = {
-    'Content-Type': 'application/json'
-  };
-
   try {
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+
     const [ordersRes, clientsRes] = await Promise.all([
       fetch('https://riseandshineservices.vercel.app/api/orders', { headers }),
       fetch('https://riseandshineservices.vercel.app/api/clientes', { headers })
-    ])
+    ]);
 
-    const orders = await ordersRes.json()
-    const clients = await clientsRes.json()
+    // Verificar si la respuesta es JSON
+    const ordersContentType = ordersRes.headers.get('content-type');
+    const clientsContentType = clientsRes.headers.get('content-type');
+
+    if (!ordersContentType?.includes('application/json')) {
+      throw new Error('La respuesta de orders no es JSON');
+    }
+
+    if (!clientsContentType?.includes('application/json')) {
+      throw new Error('La respuesta de clients no es JSON');
+    }
+
+    const orders = await ordersRes.json();
+    const clients = await clientsRes.json();
 
     return {
       orders: Array.isArray(orders) ? orders : [orders].filter(Boolean),
       clients: Array.isArray(clients) ? clients : [clients].filter(Boolean),
-    }
+    };
   } catch (error) {
-    console.error('Error fetching data:', error)
-    return { orders: [], clients: [] }
+    console.error('Error fetching data:', error);
+    return { orders: [], clients: [] };
   }
 }
 
