@@ -173,9 +173,8 @@ export function TableData({ orders }: { orders: Order[] }) {
   // }
 
   return (
-   <div className="relative overflow-hidden rounded-xl border border-cloud-light/20 bg-white/50 shadow-sm transition-all duration-300 hover:shadow-lg h-[500px]">
-      <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent backdrop-blur-sm" />
-      <div className="relative">
+    <div className="flex flex-col h-full">
+      <div className="relative overflow-hidden rounded-xl border border-cloud-light/20 bg-white/50 shadow-sm transition-all duration-300 hover:shadow-lg flex-grow">
         <Table>
           <TableHeader>
             <TableRow className="border-cloud-light/20 hover:bg-cloud-light/5">
@@ -190,7 +189,7 @@ export function TableData({ orders }: { orders: Order[] }) {
           </TableHeader>
           <TableBody>
             <Suspense>
-              {currentOrders ? currentOrders.map((order) => (
+              {currentOrders.length > 0 ? currentOrders.map((order) => (
                 <TableRow key={order.id} className="border-cloud-light/20 hover:bg-cloud-light/5">
                   <TableCell className="font-medium text-cloud-dark">{order.id}</TableCell>
                   <TableCell className="font-medium text-cloud-dark">{order.cliente.nombre}</TableCell>
