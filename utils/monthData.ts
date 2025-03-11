@@ -1,4 +1,9 @@
-export const monthlyData = (orders) => { 
+type Order = {
+  fecha_servicio: string;
+  monto: number;
+};
+
+export const monthlyData = (orders: Order[]) => { 
   return orders.reduce((acc, order) => { // Agregado 'return' aquí
     const month = new Date(order.fecha_servicio).toLocaleString('es-ES', { month: 'short' });
     const existingMonth = acc.find(data => data.month === month);
@@ -15,5 +20,5 @@ export const monthlyData = (orders) => {
     }
     
     return acc;
-  }, []);
+  }, [] as { month: string; customers: number; sales: number }[]);
 }
