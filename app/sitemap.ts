@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next'
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'http://localhost:3000/', //! Cambiar por la URL oficial
+      url: 'https://riseandshineservices.vercel.app',
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 1,

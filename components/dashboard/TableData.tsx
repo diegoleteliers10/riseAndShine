@@ -276,7 +276,7 @@ export function TableData({ orders }: { orders: Order[] }) {
       <div className="flex items-center justify-between px-4 py-4 border-t border-cloud-light/20 relative top-[-80px]">
         <div className="flex items-center gap-4">
           <span className="text-sm text-cloud-dark">
-            Página {currentPage} de {totalPages} <p className="inline-block text-[12px]">{currentOrders.length} resultados encontrados</p>
+            Página {currentPage} de {totalPages} <p className="inline-block text-[12px] text-cloud-dark/50 ml-2">{currentOrders.length} resultados encontrados</p>
           </span>
         </div>
         

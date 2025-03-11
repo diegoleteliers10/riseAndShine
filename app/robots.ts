@@ -13,6 +13,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/'],
       },
     ],
-    sitemap: 'http://localhost:3000/sitemap.xml', //! Cambiar por la URL oficial del sitemap
+    sitemap: 'https://riseandshineservices.vercel.app/sitemap.xml',
   }
 }
