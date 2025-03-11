@@ -42,8 +42,8 @@ async function getData() {
 
   try {
     const [ordersRes, clientsRes] = await Promise.all([
-      fetch('http://localhost:3000/api/orders'),
-      fetch('http://localhost:3000/api/clientes')
+      fetch('https://riseandshineservices.vercel.app/api/orders'),
+      fetch('https://riseandshineservices.vercel.app/api/clientes')
     ])
 
     const orders = await ordersRes.json()
