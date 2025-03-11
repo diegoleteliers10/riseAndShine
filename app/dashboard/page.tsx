@@ -39,11 +39,14 @@ async function getUserName() {
 }
 
 async function getData() {
+  const headers = {
+    'Content-Type': 'application/json'
+  };
 
   try {
     const [ordersRes, clientsRes] = await Promise.all([
-      fetch('https://riseandshineservices.vercel.app/api/orders'),
-      fetch('https://riseandshineservices.vercel.app/api/clientes')
+      fetch('https://riseandshineservices.vercel.app/api/orders', { headers }),
+      fetch('https://riseandshineservices.vercel.app/api/clientes', { headers })
     ])
 
     const orders = await ordersRes.json()
