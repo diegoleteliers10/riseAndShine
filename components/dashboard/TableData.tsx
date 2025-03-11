@@ -274,63 +274,61 @@ export function TableData({ orders }: { orders: Order[] }) {
             </Suspense>
           </TableBody>
         </Table>
+      </div>
 
-        {/* Pagination Controls */}
-        <div className="flex items-center justify-between px-4 py-4 border-t border-cloud-light/20">
-          <div className="flex items-center gap-4">
-            {/* Search Bar */}
-
-            <span className="text-sm text-cloud-dark">
-              Página {currentPage} de {totalPages}
-            </span>
-          </div>
-          
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Buscar por cliente o servicio..."
-              defaultValue={searchParams.get('search') || ''}
-              onChange={(e) => handleSearch(e.target.value)}
-              className="w-[500px] px-4 py-2.5 pl-10 text-sm border-2 rounded-lg border-cloud-light/30 focus:outline-none focus:border-cloud-dark/40 transition-colors duration-200"
-            />
-            <Search className="absolute left-3 top-3 h-5 w-5 text-cloud-dark/40" />
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              asChild
-              disabled={currentPage === 1}
-              className={`px-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
-            >
-              <Link 
-                replace 
-                scroll={false}
-                href={currentPage === 1 ? '#' : createPageUrl(currentPage - 1)}
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Link>
-            </Button>
-
-            <Button
-              variant="outline"
-              size="sm"
-              asChild
-              disabled={currentPage === totalPages}
-              className={`px-2 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
-            >
-              <Link 
-                replace 
-                scroll={false}
-                href={currentPage === totalPages ? '#' : createPageUrl(currentPage + 1)}
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
+      {/* Pagination Controls */}
+      <div className="flex items-center justify-between px-4 py-4 border-t border-cloud-light/20">
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-cloud-dark">
+            Página {currentPage} de {totalPages}
+          </span>
         </div>
-      </div> 
-   </div>
+        
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Buscar por cliente o servicio..."
+            defaultValue={searchParams.get('search') || ''}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="w-[500px] px-4 py-2.5 pl-10 text-sm border-2 rounded-lg border-cloud-light/30 focus:outline-none focus:border-cloud-dark/40 transition-colors duration-200"
+          />
+          <Search className="absolute left-3 top-3 h-5 w-5 text-cloud-dark/40" />
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            asChild
+            disabled={currentPage === 1}
+            className={`px-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+          >
+            <Link 
+              replace 
+              scroll={false}
+              href={currentPage === 1 ? '#' : createPageUrl(currentPage - 1)}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            asChild
+            disabled={currentPage === totalPages}
+            className={`px-2 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+          >
+            <Link 
+              replace 
+              scroll={false}
+              href={currentPage === totalPages ? '#' : createPageUrl(currentPage + 1)}
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </div>
   )
 }
