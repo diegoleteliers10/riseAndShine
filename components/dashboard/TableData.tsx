@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import Link from "next/link"
+import { Suspense } from 'react'
 
 
 import {
@@ -188,84 +189,86 @@ export function TableData({ orders }: { orders: Order[] }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentOrders.map((order) => (
-              <TableRow key={order.id} className="border-cloud-light/20 hover:bg-cloud-light/5">
-                <TableCell className="font-medium text-cloud-dark">{order.id}</TableCell>
-                <TableCell className="font-medium text-cloud-dark">{order.cliente.nombre}</TableCell>
-                <TableCell className="text-cloud-dark">{order.servicio}</TableCell>
-                <TableCell className="text-cloud-dark">
-                  {new Date(order.fecha_servicio).toLocaleDateString('es-ES', {
-                    day: '2-digit',
-                    month: 'short'
-                  })}
-                </TableCell>
-                <TableCell>
-                  <Badge 
-                    className={`${statusStyles[order.estado]} border`}
-                    variant="outline"
-                  >
-                    {statusLabels[order.estado]}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-right font-medium text-cloud-dark">
-                  ${order.monto}
-                </TableCell>
-                <TableCell className="text-right">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Pencil width={14} height={14} className='cursor-pointer'/>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px] bg-white text-cloud-dark">
-                      <DialogHeader className="bg-white text-cloud-dark">
-                        <DialogTitle className="text-cloud-light text-[20px]">Información del pedido</DialogTitle>
-                        <DialogDescription className="text-cloud-dark space-y-2 flex flex-col">
-                          <span className='mt-2'><b>ID Pedido: </b>{order.id}</span>
-                          <span><b>Nombre: </b>{order.cliente.nombre}</span>
-                          <span><b>Servicio: </b>{order.servicio}</span>
-                          <span><b>Fecha Pedido: </b>{new Date(order.fecha_pedido).toLocaleDateString('es-ES', {
-                            day: '2-digit',
-                            month: 'short'
-                          })}</span>
-                          <span><b>Fecha Servicio: </b>{new Date(order.fecha_servicio).toLocaleDateString('es-ES', {
-                            day: '2-digit',
-                            month: 'short'
-                          })}</span>
-                          <span><b>Estado Actual: </b>{order.estado}</span>
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="grid gap-4 py-4">
-                        <div className="flex gap-4 items-center justify-center">
-                          <Label htmlFor="name" className="text-left text-cloud-dark">
-                            Nuevo Estado
-                          </Label>
+            <Suspense>
+              {currentOrders.map((order) => (
+                <TableRow key={order.id} className="border-cloud-light/20 hover:bg-cloud-light/5">
+                  <TableCell className="font-medium text-cloud-dark">{order.id}</TableCell>
+                  <TableCell className="font-medium text-cloud-dark">{order.cliente.nombre}</TableCell>
+                  <TableCell className="text-cloud-dark">{order.servicio}</TableCell>
+                  <TableCell className="text-cloud-dark">
+                    {new Date(order.fecha_servicio).toLocaleDateString('es-ES', {
+                      day: '2-digit',
+                      month: 'short'
+                    })}
+                  </TableCell>
+                  <TableCell>
+                    <Badge 
+                      className={`${statusStyles[order.estado]} border`}
+                      variant="outline"
+                    >
+                      {statusLabels[order.estado]}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-right font-medium text-cloud-dark">
+                    ${order.monto}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Pencil width={14} height={14} className='cursor-pointer'/>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[425px] bg-white text-cloud-dark">
+                        <DialogHeader className="bg-white text-cloud-dark">
+                          <DialogTitle className="text-cloud-light text-[20px]">Información del pedido</DialogTitle>
+                          <DialogDescription className="text-cloud-dark space-y-2 flex flex-col">
+                            <span className='mt-2'><b>ID Pedido: </b>{order.id}</span>
+                            <span><b>Nombre: </b>{order.cliente.nombre}</span>
+                            <span><b>Servicio: </b>{order.servicio}</span>
+                            <span><b>Fecha Pedido: </b>{new Date(order.fecha_pedido).toLocaleDateString('es-ES', {
+                              day: '2-digit',
+                              month: 'short'
+                            })}</span>
+                            <span><b>Fecha Servicio: </b>{new Date(order.fecha_servicio).toLocaleDateString('es-ES', {
+                              day: '2-digit',
+                              month: 'short'
+                            })}</span>
+                            <span><b>Estado Actual: </b>{order.estado}</span>
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                          <div className="flex gap-4 items-center justify-center">
+                            <Label htmlFor="name" className="text-left text-cloud-dark">
+                              Nuevo Estado
+                            </Label>
 
-                          <Select onValueChange={(e)=>{
-                            setNewStatus(e);
-                          }}>
-                            <SelectTrigger className="w-[180px]">
-                              <SelectValue placeholder={statusLabels[order.estado]} />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                <SelectLabel className="text-cloud-dark">Estado</SelectLabel>
-                                <SelectItem value="pendiente">Pendiente</SelectItem>
-                                <SelectItem value="en-progreso">En progreso</SelectItem>
-                                <SelectItem value="realizado">Realizado</SelectItem>
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
+                            <Select onValueChange={(e)=>{
+                              setNewStatus(e);
+                            }}>
+                              <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder={statusLabels[order.estado]} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  <SelectLabel className="text-cloud-dark">Estado</SelectLabel>
+                                  <SelectItem value="pendiente">Pendiente</SelectItem>
+                                  <SelectItem value="en-progreso">En progreso</SelectItem>
+                                  <SelectItem value="realizado">Realizado</SelectItem>
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                          </div>
                         </div>
-                      </div>
-                      <DialogFooter className="bg-white">
-                        <Button type="submit" onClick={()=>{
-                          updateStatus(order.id,newStatus);
-                        }} className="text-white bg-cloud hover:bg-cloud-dark">Actualizar Estado</Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                </TableCell>
-              </TableRow>
-            ))}
+                        <DialogFooter className="bg-white">
+                          <Button type="submit" onClick={()=>{
+                            updateStatus(order.id,newStatus);
+                          }} className="text-white bg-cloud hover:bg-cloud-dark">Actualizar Estado</Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </Suspense>
           </TableBody>
         </Table>
 
