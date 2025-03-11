@@ -23,10 +23,11 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(redirectUrl)
     }
 
-    // Proteger las rutas de la API
-    // if (!session && request.nextUrl.pathname.startsWith('/api/')) {
-    //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    // }
+    // Proteger rutas específicas de la API
+    const protectedApiRoutes = ['/api/clientes', '/api/order', '/api/orders'];
+    if (!session && protectedApiRoutes.includes(request.nextUrl.pathname)) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     return res
   } catch (error) {
@@ -37,5 +38,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login']
+  matcher: ['/dashboard/:path*', '/login', '/api/:path*'] // Mantener el matcher para las rutas de la API
 }
