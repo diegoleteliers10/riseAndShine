@@ -27,7 +27,7 @@ export default function LoginForm() {
         duration: 1000,
       })
 
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch('https://riseandshineservices.vercel.app/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

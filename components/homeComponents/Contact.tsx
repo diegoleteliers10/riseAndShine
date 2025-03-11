@@ -39,7 +39,7 @@ function ContactContent() {
     };
 
     try {
-      const response = await fetch('/api/order', {
+      const response = await fetch('https://riseandshineservices.vercel.app/api/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
