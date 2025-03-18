@@ -5,10 +5,10 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="w-full py-12 md:py-24 bg-linear-to-b from-white to-cloud-light/20"
+      className="w-full py-24 md:py-24 xl:py-32 2xl:py-40 bg-linear-to-b from-white to-cloud-light/20"
     >
-      <div className="flex px-16">
-        <div className="flex flex-col">
+      <div className="flex flex-col md:flex-row px-6 md:px-16">
+        <div className="flex flex-col justify-center md:justify-none">
           <p className="hero_pretitle slogan" data-aos="fade-top" data-aos-delay="200">
             Deja las colas de lado, nosotros llegamos a ti!
           </p>
@@ -40,7 +40,7 @@ export default function Hero() {
           alt="Rise & Shine"
           width={650}
           height={650}
-          className="ml-auto relative left-10"
+          className="md:ml-auto md:relative md:left-10"
           loading="lazy"
           data-aos="fade-left"
         />

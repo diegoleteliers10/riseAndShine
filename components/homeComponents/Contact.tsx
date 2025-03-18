@@ -150,7 +150,7 @@ function ContactContent() {
             />
           </div>
           <div
-            className="md:w-1/2 bg-white rounded-lg shadow-lg p-8 border border-cloud/20"
+            className="md:w-1/2 bg-white rounded-lg shadow-lg p-8 border border-cloud/20 aos-init"
             data-aos="fade-left"
             data-aos-delay="500"
           >
