@@ -52,8 +52,8 @@ async function getData(token: string) {
     };
 
     const [ordersRes, clientsRes] = await Promise.all([
-      fetch('https://riseandshineservices.vercel.app/api/orders', { headers }),
-      fetch('https://riseandshineservices.vercel.app/api/clientes', { headers })
+      fetch('/api/orders', { headers }),
+      fetch('/api/clientes', { headers })
     ]);
 
     // Verificar si la respuesta es JSON
