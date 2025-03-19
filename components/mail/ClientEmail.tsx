@@ -57,6 +57,11 @@ export const ClientEmail: React.FC<EmailTemplateProps> = ({
     borderColor: "#e9ecef",
   }
 
+  const priceFormateado = new Intl.NumberFormat('es-CL', {
+    style: 'currency',
+    currency: 'CLP',
+  }).format(parseInt(totalAmount));
+
   return (
     <Html>
       <Head />
@@ -109,7 +114,7 @@ export const ClientEmail: React.FC<EmailTemplateProps> = ({
             <Row style={orderRow}>
               <Column style={orderLabelColumn}>Total:</Column>
               <Column style={orderValueColumn}>
-                <strong>{totalAmount}</strong>
+                <strong>{priceFormateado}</strong>
               </Column>
             </Row>
           </Section>

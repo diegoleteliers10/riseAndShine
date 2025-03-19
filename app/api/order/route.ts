@@ -94,7 +94,7 @@ export async function POST(request: Request) {
 
     // Enviar el correo con el archivo .ics adjunto
     const mailCliente = await resend.emails.send({
-      from: `Rise & Shine <r.shine1090@outlook.com>`,
+      from: `Rise & Shine <onboarding@resend.dev>`,
       to: [`${body.email}`],
       subject: `Servicio de Limpieza - ${formattedDate}`,
       react: await ClientEmail({
