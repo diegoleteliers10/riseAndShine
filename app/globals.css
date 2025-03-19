@@ -142,27 +142,27 @@
 }
 
 .hero_title {
-  @apply text-4xl md:text-6xl xl:text-7xl 2xl:text-8xl md:text-left text-center text-cloud-dark font-bold mt-4
+  @apply text-4xl md:text-6xl xl:text-7xl 2xl:text-8xl text-center xl:text-left text-cloud-dark font-bold mt-4
 }
 
 .hero_pretitle {
-  @apply text-lg md:text-2xl xl:text-3xl 2xl:text-5xl text-cloud-light
+  @apply text-lg md:text-xl xl:text-2xl 2xl:text-3xl text-cloud-light
 }
 
 .hero_subtitle {
-  @apply text-xl md:text-2xl xl:text-4xl 2xl:text-6xl text-cloud font-medium mt-6
+  @apply text-xl md:text-2xl xl:text-4xl 2xl:text-5xl text-center xl:text-left text-cloud font-medium mt-6
 }
 
 .button_hero {
-  @apply text-[16px]
+  @apply text-[16px] xl:text-xl
 }
 
 .section_title {
-  @apply text-3xl text-cloud-dark font-bold
+  @apply text-[22px] md:text-3xl 2xl:text-5xl text-center text-cloud-dark font-bold
 }
 
 .section_subtitle {
-  @apply text-cloud-dark/70 font-medium text-[18px] mt-2
+  @apply text-cloud-dark/70 font-medium text-[14px] text-center lg:text-left 2xl:text-2xl md:mt-2 2xl:mt-5
 }
 
 .little_text {
@@ -170,7 +170,7 @@
 }
 
 .contact_text {
-  @apply text-cloud font-semibold
+  @apply md:text-[16px] xl:text-xl text-cloud font-semibold
 }
 
 html {

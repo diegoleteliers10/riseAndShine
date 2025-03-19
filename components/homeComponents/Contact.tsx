@@ -99,16 +99,16 @@ function ContactContent() {
 
   return (
     <section id="contacto" className="w-full py-9 md:py-20">
-      <div className="px-20">
-        <div className="flex md:flex-row flex-col items-center gap-8">
+      <div className="px-8 lg:px-20">
+        <div className="flex lg:flex-row flex-col items-center gap-8 justify-center">
           <div className="flex flex-col space-y-4">
             <h2 className="section_title">Contáctanos</h2>
             <p className="section_subtitle">
               Estamos aquí para atender todas tus consultas. Contáctanos por
               cualquiera de estos medios.
             </p>
-            <div className="space-y-4">
-              <div className="flex items-center">
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-center justify-center lg:justify-normal">
                 <svg
                   className="w-6 h-6 text-cloud mr-4"
                   fill="none"
@@ -124,7 +124,7 @@ function ContactContent() {
                 </svg>
                 <span className="contact_text">+56 9 92187281</span>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center justify-center lg:justify-normal">
                 <svg
                   className="w-6 h-6 text-cloud mr-4"
                   fill="none"
@@ -138,7 +138,7 @@ function ContactContent() {
                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   ></path>
                 </svg>
-                <span className="contact_text">mzuluetacomparini@gmail.com</span>
+                <span className="contact_text">r.shine1090@outlook.com</span>
               </div>
             </div>
             <Image
@@ -146,7 +146,7 @@ function ContactContent() {
               src="/selectionIlustration.svg"
               width={350}
               height={350}
-              className="mt-10"
+              className="mt-10 object-cover xl:w-[610px] xl:h-[580px] mx-auto lg:mx-0"
             />
           </div>
           <div
@@ -217,7 +217,7 @@ function ContactContent() {
                   <DatePickerDemo />
                 </div>
               </div>
-              <p className="text-[10px] text-cloud-dark">
+              <p className="md:text-[12px] xl:text-md text-cloud-dark">
                 *Si quieres dar alguna especificación del lavado, contáctanos por
                 mensaje.
               </p>
@@ -225,7 +225,7 @@ function ContactContent() {
                 type="submit"
                 className="w-full bg-cloud text-white py-2 rounded-full hover:bg-cloud-dark transition duration-300"
               >
-                Enviar Mensaje
+                Agendar Servicio
               </button>
             </form>
           </div>

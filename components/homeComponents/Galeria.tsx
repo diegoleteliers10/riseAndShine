@@ -3,7 +3,7 @@ import { ImageCarousel } from '@/components/homeComponents/images/imageCarousel'
 
 export default function Galeria() {
   return (
-    <section className="w-full py-9 md:py-20">
+    <section className="w-full py-9 md:py-20 px-6 lg:px-0">
       <div className="flex flex-col items-center gap-6">
         <div className="flex flex-col items-center">
           <h2 className="section_title">Nuestros Trabajos de Lavado</h2>

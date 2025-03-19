@@ -28,13 +28,13 @@ export const Slider = () => {
   return (
     <div className="w-full relative mt-6 " onMouseUp={handleMouseUp} data-aos="fade-left">
       <div
-        className="relative w-full max-w-[600px] aspect-[70/50] m-auto overflow-hidden select-none rounded-lg"
+        className="relative w-full md:w-[700px] 2xl:w-[900px] aspect-[70/50] m-auto overflow-hidden select-none rounded-lg"
         onMouseMove={handleMove}
         onMouseDown={handleMouseDown}
       >
         <Image
           alt="carBefore"
-          style={{ objectFit: 'cover' }}
+          className='object-cover md:w-[700px] md:h-[700px] 2xl:w-[900px] 2xl:h-[900px]'
           width={600}
           height={600}
           loading="lazy"
@@ -43,11 +43,11 @@ export const Slider = () => {
         />
 
         <div
-          className="absolute top-0 left-0 right-0 w-full max-w-[700px] aspect-[70/50] m-auto overflow-hidden select-none"
+          className="absolute top-0 left-0 right-0 w-full md:w-[700px] 2xl:w-[900px] aspect-[70/50] m-auto overflow-hidden select-none"
           style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
         >
           <Image
-            style={{ objectFit: 'cover' }}
+            className='object-cover md:w-[700px] md:h-[700px] 2xl:w-[900px] 2xl:h-[900px]'
             width={600}
             height={600}
             loading="lazy"

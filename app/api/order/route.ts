@@ -3,6 +3,7 @@ import { createClient } from '@/utils/supabase/client'
 // import nodemailer from 'nodemailer';
 import ical from 'ical-generator';
 import { Resend } from 'resend';
+import ClientEmail from '@/components/mail/ClientEmail';
 
 // GET /api/orders
 export async function POST(request: Request) {
@@ -100,37 +101,19 @@ export async function POST(request: Request) {
 
     // Enviar el correo con el archivo .ics adjunto
     const mailCliente = await resend.emails.send({
-      from: `Rise & Shine <${process.env.NEXT_PUBLIC_EMAIL_USER}>`,
-      to: body.email,
+      from: `Rise & Shine <onboarding@resend.dev>`,
+      to: [body.email],
       subject: `Servicio de Limpieza - ${formattedDate}`,
-      text: `
-        Hola ${body.nombre},
-
-        Tu servicio de limpieza ha sido agendado exitosamente.
-
-        Detalles del servicio:
-        Fecha: ${formattedDate} (Todo el día)
-        Servicio: ${body.servicio}
-        Monto: $${body.monto}
-
-        Hemos adjuntado un archivo para que puedas agregar este evento a tu calendario.
-
-        Gracias por confiar en Rise & Shine.
-        
-        Saludos,
-        Manuel José Zulueta
-      `,
-      html: `
-        <p>Hola ${body.nombre},</p>
-        <p>Tu servicio de limpieza ha sido agendado exitosamente.</p>
-        <h3>Detalles del servicio:</h3>
-        <p><strong>Fecha:</strong> ${formattedDate} (Todo el día)</p>
-        <p><strong>Servicio:</strong> ${body.servicio}</p>
-        <p><strong>Monto:</strong> $${body.monto}</p>
-        <p>Hemos adjuntado un archivo para que puedas agregar este evento a tu calendario.</p>
-        <p>Gracias por confiar en Rise & Shine.</p>
-        <p>Saludos,<br>Manuel José Zulueta</p>
-      `,
+      react: await ClientEmail({
+        customerName: body.nombre,
+        orderNumber: orderData[0].id,
+        serviceType: body.servicio,
+        serviceDate: body.fecha_servicio,
+        totalAmount: body.monto,
+        serviceTime: '',
+        paymentMethod: '',
+        paymentStatus: ''
+      }),
       attachments: [
         {
           filename: 'event.ics',
