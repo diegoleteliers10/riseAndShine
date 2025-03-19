@@ -75,7 +75,6 @@ export async function POST(request: Request) {
       events: [
         {
           start: eventDateObj,
-          end: nextDayObj, // Para eventos de todo el día, la fecha fin suele ser el día siguiente
           summary: 'Servicio de Limpieza',
           description: 'El servicio de limpieza ha sido agendado para el día ' + body.fecha_servicio,
           allDay: true, // Importante: marca el evento como de todo el día
@@ -91,13 +90,12 @@ export async function POST(request: Request) {
     const icsContent = calendar.toString();
     const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
-
     const formattedDate = eventDateObj.toLocaleDateString();
 
     // Enviar el correo con el archivo .ics adjunto
     const mailCliente = await resend.emails.send({
-      from: `Rise & Shine <onboarding@resend.dev>`,
-      to: [body.email],
+      from: `Rise & Shine <r.shine1090@outlook.com>`,
+      to: [`${body.email}`],
       subject: `Servicio de Limpieza - ${formattedDate}`,
       react: await ClientEmail({
         customerName: body.nombre,

@@ -42,7 +42,6 @@ export const ClientEmail: React.FC<EmailTemplateProps> = ({
   serviceTime = "10:00 AM",
   totalAmount,
   companyName = "Rise & Shine",
-  companyLogo = "/pictures/logo.webp",
   companyPhone = "+56 9 92187281",
   companyEmail = "r.shine1090@outlook.com",
 }) => {
@@ -66,7 +65,7 @@ export const ClientEmail: React.FC<EmailTemplateProps> = ({
         <Container style={container}>
           {/* Header with logo */}
           <Section style={{ ...logoContainer, backgroundColor: colors.cloud }}>
-            <Img src={companyLogo || "/placeholder.svg"} width="200" height="60" alt={companyName} style={logo} />
+            <Img src="https://res.cloudinary.com/dfjzdxfop/image/upload/v1742353283/igz0pz8b2ngqgwjwv8ew.webp" width="200" height="60" alt={companyName} style={logo} />
           </Section>
 
           {/* Greeting */}
