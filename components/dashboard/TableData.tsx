@@ -133,7 +133,7 @@ export function TableData({ orders }: { orders: Order[] }) {
     }
 
     try {
-      const response = await fetch(`https://riseandshineservices.vercel.app/api/orders?id=${orderId}&newStatus=${status}`, {
+      const response = await fetch(`https://rsservices.vercel.app/api/orders?id=${orderId}&newStatus=${status}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
