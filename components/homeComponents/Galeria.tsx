@@ -11,9 +11,7 @@ export default function Galeria() {
             ¡Descubra la transformación que puede revolucionar su vehículo!
           </p>
         </div>
-        <div className="max-w-[900px]">
-          <ImageCarousel />
-        </div>
+        <ImageCarousel />
         <p className="slogan little_text">
           Nuestro equipo se asegura de que cada vehículo reciba un tratamiento
           excepcional, dejándolo impecable tanto por dentro como por fuera.

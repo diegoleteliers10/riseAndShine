@@ -44,7 +44,7 @@ export function ImageCarousel() {
   return (
     <div data-aos="zoom-in" data-aos-delay="200">
       <div>
-      <Carousel setApi={setApi} className="w-full">
+      <Carousel setApi={setApi} className="max-w-[900px]">
         <CarouselContent>
           {images.map((image, index) => (
             <CarouselItem key={index}>
