@@ -69,8 +69,8 @@ export const ClientEmail: React.FC<EmailTemplateProps> = ({
       <Body style={{ ...main, backgroundColor: colors.lightGray }}>
         <Container style={container}>
           {/* Header with logo */}
-          <Section style={{ ...logoContainer, backgroundColor: colors.cloud }}>
-            <Img src="https://res.cloudinary.com/dfjzdxfop/image/upload/v1742353283/igz0pz8b2ngqgwjwv8ew.webp" width="200" height="60" alt={companyName} style={logo} />
+          <Section style={{ ...logoContainer }}>
+            <Img src="https://res.cloudinary.com/dfjzdxfop/image/upload/v1742353283/igz0pz8b2ngqgwjwv8ew.webp" width="200" height="200" alt={companyName} style={logo} />
           </Section>
 
           {/* Greeting */}
