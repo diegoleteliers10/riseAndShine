@@ -8,11 +8,6 @@ import ClientEmail from '@/components/mail/ClientEmail';
 // GET /api/orders
 export async function POST(request: Request) {
 
-  const token = request.headers.get('Authorization')?.split(' ')[1] // Obtener el token del encabezado
-
-  if (!token) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
 
   try {
     const body = await request.json()
