@@ -44,11 +44,11 @@ export function ImageCarousel() {
   return (
     <div data-aos="zoom-in" data-aos-delay="200">
       <div>
-      <Carousel setApi={setApi} className="max-w-[900px]">
+      <Carousel setApi={setApi} className="max-w-[350px] md:max-w-[900px]">
         <CarouselContent>
           {images.map((image, index) => (
             <CarouselItem key={index}>
-              <Card className="border-none">
+              <Card className="border-none shadow-none">
                 <CardContent className="flex aspect-[6/3] items-center justify-center p-0 overflow-hidden rounded-lg">
                   <Image
                     src={image.src}
