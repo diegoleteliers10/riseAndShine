@@ -4,7 +4,7 @@ function Header() {
   return (
     <header id="navbar" className="fixed w-full bg-white shadow-md z-50 transition duration-300 ease-in-out">
       <nav className="container mx-auto">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between px-3 md:px-0">
           <Image 
             src="/pictures/logo.webp"
             alt="Rise & Shine"

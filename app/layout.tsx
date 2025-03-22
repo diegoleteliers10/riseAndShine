@@ -37,7 +37,7 @@ export default function RootLayout({
     <html lang="en">
       <Aos/>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased overflow-x-hidden`}
       >
         {children}
         <Analytics />

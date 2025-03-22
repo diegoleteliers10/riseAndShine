@@ -8,6 +8,7 @@ import { CalendarIcon } from "lucide-react"
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { Suspense } from 'react';
 
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -17,11 +18,12 @@ import {
 } from "@/components/ui/popover"
 
 function DatePickerContent() {
-  const [date, setDate] = React.useState<Date>()
+  const [date, setDate] = React.useState<Date>();
   const defaultClassNames = getDefaultClassNames();
   const searchParams = useSearchParams()
   const { replace } = useRouter();
   const pathname = usePathname();
+  console.log(date)
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     setDate(selectedDate);
@@ -60,7 +62,7 @@ function DatePickerContent() {
           classNames={{
             today: `text-cloud font-bold`,
             selected: `text-white bg-cloud-light rounded-full`,
-            root: `${defaultClassNames.root} px-5 py-2 border rounded-lg text-cloud-dark`,
+            root: `${defaultClassNames.root} px-5 py-2 border-none text-cloud-dark`,
             chevron: `${defaultClassNames.chevron} fill-cloud-dark`,
             caption_label: `${defaultClassNames.caption_label} text-cloud-DEFAULT font-semibold`,
             weekday: `${defaultClassNames.weekday} text-cloud-light`,

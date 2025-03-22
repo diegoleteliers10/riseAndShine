@@ -7,7 +7,7 @@ export default function Hero() {
       className="w-full pt-24 pb-18 md:py-24 xl:py-32 2xl:py-40 bg-linear-to-b from-white to-cloud-light/20"
     >
       <div className="flex flex-col lg:flex-row px-6 md:px-16">
-        <div className="flex flex-col text-center xl:text-left justify-center lg:justify-none">
+        <div className="flex flex-col text-center lg:text-left justify-center lg:justify-none">
           <p className="hero_pretitle slogan" data-aos="fade-top" data-aos-delay="200">
             Deja las colas de lado, nosotros llegamos a ti!
           </p>

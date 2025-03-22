@@ -1,12 +1,15 @@
 'use client'
 import Image from "next/image";
 import { DatePickerDemo } from "@/components/homeComponents/contact/DatePicker";
-import { useState, FormEvent, Suspense } from "react";
+import { useState, FormEvent, Suspense, useId } from "react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { AlertCircle, CheckCircle } from "lucide-react";
+import { AlertCircle, CheckCircle, Clock } from "lucide-react";
+import { combineDateTime } from "@/utils/utils";
+import { Input } from "@/components/ui/input"
 
 function ContactContent() {
+  const [time_servicio,setTime] = useState('')
   const [formData, setFormData] = useState({
     // Datos del cliente
     nombre: '',
@@ -15,10 +18,13 @@ function ContactContent() {
     // Datos de la orden
     servicio: '',
     precio: 0,
-    fecha_servicio: ''
+    fecha_servicio: '',
   });
   const searchParams = useSearchParams();
   const dateService = searchParams.get('fecha_servicio') || '';
+  console.log(`this is the combine date and time: ${combineDateTime(dateService,time_servicio)}`);
+  const combineDate = combineDateTime(dateService,time_servicio);
+  const id = useId();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,11 +41,11 @@ function ContactContent() {
         telefono: formData.telefono,
         servicio: formData.servicio.split(' ')[0],
         monto: precio,
-        fecha_servicio: dateService,
+        fecha_servicio: combineDate,
     };
 
     try {
-      const response = await fetch('https://rsservices.vercel.app/api/order', {
+      const response = await fetch('http://localhost:3000/api/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +64,7 @@ function ContactContent() {
         telefono: '',
         servicio: '',
         precio: 0,
-        fecha_servicio: ''
+        fecha_servicio: '',
       });
 
       toast.custom(() => (
@@ -210,11 +216,33 @@ function ContactContent() {
                 </select>
               </div>
               <div>
-                <label className="block text-cloud-dark mb-2"
-                  >Selecciona tu fecha</label
-                >
-                <div className="w-full justify-center">
-                  <DatePickerDemo />
+                <div>
+                  <label className="block text-cloud-dark mb-2"
+                    >Selecciona tu fecha</label
+                  >
+                  <div className="w-full justify-center">
+                    <DatePickerDemo />
+                  </div>
+                </div>
+                <div className="flex gap-3 flex-col">
+                  <label className="block text-cloud-dark mb-2"
+                    >Selecciona tu hora</label
+                  >
+                  <div className="relative max-w-[240px]">
+                    <Input
+                      id={id}
+                      type="time"
+                      step="1"
+                      defaultValue="12:00:00"
+                      onChange={(e)=> {
+                        setTime(e.target.value)
+                      }}
+                      className="peer ps-9 [&::-webkit-calendar-picker-indicator]:hidden border rounded-lg focus:outline-none text-cloud-dark/80 focus-visible:outline-none"
+                    />
+                    <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+                      <Clock size={16} strokeWidth={2} aria-hidden="true" />
+                    </div>
+                  </div>
                 </div>
               </div>
               <p className="md:text-[12px] xl:text-md text-cloud-dark">

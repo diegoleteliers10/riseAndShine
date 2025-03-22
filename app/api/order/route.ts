@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/client'
-// import nodemailer from 'nodemailer';
-import ical from 'ical-generator';
-import { Resend } from 'resend';
-import ClientEmail from '@/components/mail/ClientEmail';
+// import ical from 'ical-generator';
+// import { Resend } from 'resend';
+// import ClientEmail from '@/components/mail/ClientEmail';
 
 // GET /api/orders
 export async function POST(request: Request) {
@@ -66,60 +65,58 @@ export async function POST(request: Request) {
     }
 
     //3. Creamos correos diferentes para enviarle tanto al cliente como a la empresa sobre el pedido
-    const eventDateObj = new Date(body.fecha_servicio);
-    const nextDayObj = new Date(body.fecha_servicio);
-    nextDayObj.setDate(nextDayObj.getDate() + 1);
+    // const eventDateObj = new Date(body.fecha_servicio);
+    // const nextDayObj = new Date(body.fecha_servicio);
+    // nextDayObj.setDate(nextDayObj.getDate() + 1);
 
-    const calendar = ical({
-      prodId: '//Rise And Shine//Rise&ShineWeb//ES',
-      events: [
-        {
-          start: eventDateObj,
-          summary: 'Servicio de Limpieza',
-          description: 'El servicio de limpieza ha sido agendado para el día ' + body.fecha_servicio,
-          allDay: true, // Importante: marca el evento como de todo el día
-          organizer: {
-            name: 'Manuel José Zulueta',
-            email: 'Mzuluetacomparini@gmail.com'
-          }
-        }
-      ]
-    });
+    // const calendar = ical({
+    //   prodId: '//Rise And Shine//Rise&ShineWeb//ES',
+    //   events: [
+    //     {
+    //       start: eventDateObj,
+    //       summary: 'Servicio de Limpieza',
+    //       description: 'El servicio de limpieza ha sido agendado para el día ' + body.fecha_servicio,
+    //       organizer: {
+    //         name: 'Manuel José Zulueta',
+    //         email: 'Mzuluetacomparini@gmail.com'
+    //       }
+    //     }
+    //   ]
+    // });
 
     // Generar el archivo .ics como string
-    const icsContent = calendar.toString();
-    const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
+    // const icsContent = calendar.toString();
+    // const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
-    const formattedDate = eventDateObj.toLocaleDateString();
+    // const formattedDate = eventDateObj.toLocaleDateString();
 
     // Enviar el correo con el archivo .ics adjunto
-    const mailCliente = await resend.emails.send({
-      from: `Rise & Shine <onboarding@resend.dev>`,
-      to: [`${body.email}`],
-      subject: `Servicio de Limpieza - ${formattedDate}`,
-      react: await ClientEmail({
-        customerName: body.nombre,
-        orderNumber: orderData[0].id,
-        serviceType: body.servicio,
-        serviceDate: body.fecha_servicio,
-        totalAmount: body.monto,
-        serviceTime: '',
-        paymentMethod: '',
-        paymentStatus: ''
-      }),
-      attachments: [
-        {
-          filename: 'event.ics',
-          content: icsContent,
-          contentType: 'text/calendar'
-        }
-      ]
-    });
+    // const mailCliente = await resend.emails.send({
+    //   from: `Rise & Shine <onboarding@resend.dev>`,
+    //   to: [`${body.email}`],
+    //   subject: `Servicio de Limpieza - ${formattedDate}`,
+    //   react: await ClientEmail({
+    //     customerName: body.nombre,
+    //     orderNumber: orderData[0].id,
+    //     serviceType: body.servicio,
+    //     serviceDate: new Date(body.fecha_servicio).toLocaleDateString('es-ES'),
+    //     totalAmount: body.monto,
+    //     serviceTime: eventDateObj.getHours() + ':' + eventDateObj.getMinutes(),
+    //     paymentMethod: '',
+    //     paymentStatus: ''
+    //   }),
+    //   attachments: [
+    //     {
+    //       filename: 'event.ics',
+    //       content: icsContent,
+    //       contentType: 'text/calendar'
+    //     }
+    //   ]
+    // });
 
     return NextResponse.json(
       { 
         message: 'Cliente y orden creados exitosamente, y correos enviado con exito',
-        mailCliente: mailCliente,
         // mailEmpresa: mailEmpresa,falta crear el mail de empresa
         client: clientData,
         order: orderData 

@@ -39,7 +39,7 @@ export const ClientEmail: React.FC<EmailTemplateProps> = ({
   orderNumber,
   serviceType,
   serviceDate,
-  serviceTime = "10:00 AM",
+  serviceTime,
   totalAmount,
   companyName = "Rise & Shine",
   companyPhone = "+56 9 92187281",
