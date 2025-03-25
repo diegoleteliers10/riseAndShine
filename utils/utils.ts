@@ -1,23 +1,16 @@
 export function combineDateTime(date: string, time: string): string {
-    // Validar que tengamos tanto fecha como hora
     if (!date || !time) {
-        console.log('Fecha o hora faltante:', { date, time });
         return '';
     }
 
     try {
-        // Crear fecha base
+        // Tomar la fecha seleccionada
         const dateObj = new Date(date);
         
         // Separar la hora en horas y minutos
         const [hours, minutes] = time.split(':').map(Number);
         
-        if (isNaN(hours) || isNaN(minutes)) {
-            console.log('Hora inválida:', time);
-            return '';
-        }
-
-        // Crear fecha combinada manteniendo la zona horaria local
+        // Crear nueva fecha con la hora exacta seleccionada
         const combinedDate = new Date(
             dateObj.getFullYear(),
             dateObj.getMonth(),
@@ -27,17 +20,9 @@ export function combineDateTime(date: string, time: string): string {
             0
         );
 
-        // Convertir a UTC para almacenamiento
-        const utcDate = new Date(Date.UTC(
-            combinedDate.getFullYear(),
-            combinedDate.getMonth(),
-            combinedDate.getDate(),
-            hours,
-            minutes,
-            0
-        ));
+        // Retornar en formato ISO
+        return combinedDate.toISOString();
 
-        return utcDate.toISOString();
     } catch (error) {
         console.error('Error al combinar fecha y hora:', error);
         return '';
