@@ -15,6 +15,7 @@ function ContactContent() {
     nombre: '',
     email: '',
     telefono: '',
+    direccion: '',
     // Datos de la orden
     servicio: '',
     precio: 0,
@@ -23,26 +24,9 @@ function ContactContent() {
   const searchParams = useSearchParams();
   const dateService = searchParams.get('fecha_servicio') || '';
 
-  // Logs más detallados
-  console.log('Fecha original:', dateService);
-  console.log('Hora seleccionada:', time_servicio);
-
   const combineDate = dateService && time_servicio 
     ? combineDateTime(dateService, time_servicio)
     : '';
-
-  // Verificar el resultado final
-  if (combineDate) {
-    const finalDate = new Date(combineDate);
-    console.log('Fecha y hora combinada:', {
-        iso: combineDate,
-        local: finalDate.toLocaleString('es-CL', {
-            timeZone: 'America/Santiago',
-            hour12: false
-        })
-    });
-  }
-
   const id = useId();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -58,6 +42,7 @@ function ContactContent() {
         nombre: formData.nombre,
         email: formData.email,
         telefono: formData.telefono,
+        direccion: formData.direccion,
         servicio: formData.servicio.split(' ')[0],
         monto: precio,
         fecha_servicio: combineDate,
@@ -81,6 +66,7 @@ function ContactContent() {
         nombre: '',
         email: '',
         telefono: '',
+        direccion: '',
         servicio: '',
         precio: 0,
         fecha_servicio: '',
@@ -220,6 +206,18 @@ function ContactContent() {
                 />
               </div>
               <div>
+                <label className="block text-cloud-dark mb-2">Dirección del Lavado</label>
+                <input
+                  type="text"
+                  id="direccion"
+                  value={formData.direccion}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-cloud"
+                  placeholder="Ej. Av. Principal 123, Comuna"
+                  required
+                />
+              </div>
+              <div>
                 <label className="block text-cloud-dark mb-2">Elija su servicio</label>
                 <select
                   id="servicio"
@@ -251,7 +249,7 @@ function ContactContent() {
                     <Input
                       id={id}
                       type="time"
-                      step="1"
+                      step="60"
                       value={time_servicio}
                       onChange={(e) => {
                         const newTime = e.target.value;
@@ -260,6 +258,8 @@ function ContactContent() {
                       }}
                       className="peer ps-9 [&::-webkit-calendar-picker-indicator]:hidden border rounded-lg focus:outline-none text-cloud-dark/80 focus-visible:outline-none"
                       required
+                      min="09:00"
+                      max="20:00"
                     />
                     <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
                       <Clock size={16} strokeWidth={2} aria-hidden="true" />
