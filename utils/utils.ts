@@ -1,26 +1,35 @@
-export const combineDateTime = (date:string,time:string) => {
-  if( date && time ){const fechaStr = date;
-    const horaStr = time;
+export function combineDateTime(date: string, time: string): string {
+    // Validar que tengamos tanto fecha como hora
+    if (!date || !time) {
+        console.log('Fecha o hora faltante:', { date, time });
+        return '';
+    }
 
-    // Primero, decodifica los valores URL-encoded
-    const fechaDecodificada = decodeURIComponent(fechaStr);
-    const horaDecodificada = decodeURIComponent(horaStr);
+    try {
+        // Asegurarnos de que la fecha esté en formato YYYY-MM-DD
+        const dateObj = new Date(date);
+        if (isNaN(dateObj.getTime())) {
+            console.log('Fecha inválida:', date);
+            return '';
+        }
 
-    // Crea un objeto Date a partir de la fecha
-    const fecha = new Date(fechaDecodificada);
+        // Separar la hora en horas y minutos
+        const [hours, minutes] = time.split(':').map(Number);
+        
+        // Validar que las horas y minutos sean números válidos
+        if (isNaN(hours) || isNaN(minutes)) {
+            console.log('Hora inválida:', time);
+            return '';
+        }
 
-    // Extrae las partes de la hora
-    const [horas, minutos, segundos] = horaDecodificada.split(':');
+        // Crear nueva fecha con la hora
+        const combinedDate = new Date(dateObj);
+        combinedDate.setHours(hours, minutes, 0);
 
-    // Establece la nueva hora
-    fecha.setUTCHours(parseInt(horas), parseInt(minutos), parseInt(segundos));
-
-    // Obtén la nueva cadena ISO
-    const nuevaFechaISO = fecha.toISOString();
-
-    // Codifica nuevamente los caracteres especiales
-    // const resultado = nuevaFechaISO.replace(/:/g, "%3A");
-
-    return nuevaFechaISO
-  }
+        // Retornar en formato ISO
+        return combinedDate.toISOString();
+    } catch (error) {
+        console.error('Error al combinar fecha y hora:', error);
+        return '';
+    }
 }

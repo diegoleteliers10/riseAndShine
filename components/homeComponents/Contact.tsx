@@ -9,7 +9,7 @@ import { combineDateTime } from "@/utils/utils";
 import { Input } from "@/components/ui/input"
 
 function ContactContent() {
-  const [time_servicio,setTime] = useState('')
+  const [time_servicio, setTime] = useState('12:00');
   const [formData, setFormData] = useState({
     // Datos del cliente
     nombre: '',
@@ -22,8 +22,16 @@ function ContactContent() {
   });
   const searchParams = useSearchParams();
   const dateService = searchParams.get('fecha_servicio') || '';
-  console.log(`this is the combine date and time: ${combineDateTime(dateService,time_servicio)}`);
-  const combineDate = combineDateTime(dateService,time_servicio);
+  const combineDate = dateService && time_servicio 
+    ? combineDateTime(dateService, time_servicio)
+    : '';
+
+  console.log('Valores para combinar:', {
+    dateService,
+    time_servicio,
+    resultado: combineDate
+  });
+
   const id = useId();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -233,11 +241,14 @@ function ContactContent() {
                       id={id}
                       type="time"
                       step="1"
-                      defaultValue="12:00:00"
-                      onChange={(e)=> {
-                        setTime(e.target.value)
+                      value={time_servicio}
+                      onChange={(e) => {
+                        const newTime = e.target.value;
+                        console.log('Nueva hora seleccionada:', newTime);
+                        setTime(newTime);
                       }}
                       className="peer ps-9 [&::-webkit-calendar-picker-indicator]:hidden border rounded-lg focus:outline-none text-cloud-dark/80 focus-visible:outline-none"
+                      required
                     />
                     <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
                       <Clock size={16} strokeWidth={2} aria-hidden="true" />
