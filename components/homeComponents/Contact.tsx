@@ -23,8 +23,8 @@ function ContactContent() {
   const searchParams = useSearchParams();
   const dateService = searchParams.get('fecha_servicio') || '';
 
-  // Agregar logs para debugging
-  console.log('Fecha seleccionada (local):', new Date(dateService).toLocaleString());
+  // Logs más detallados
+  console.log('Fecha original:', dateService);
   console.log('Hora seleccionada:', time_servicio);
 
   const combineDate = dateService && time_servicio 
@@ -33,7 +33,14 @@ function ContactContent() {
 
   // Verificar el resultado final
   if (combineDate) {
-    console.log('Fecha y hora combinada (local):', new Date(combineDate).toLocaleString());
+    const finalDate = new Date(combineDate);
+    console.log('Fecha y hora combinada:', {
+        iso: combineDate,
+        local: finalDate.toLocaleString('es-CL', {
+            timeZone: 'America/Santiago',
+            hour12: false
+        })
+    });
   }
 
   const id = useId();

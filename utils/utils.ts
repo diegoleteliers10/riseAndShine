@@ -6,7 +6,7 @@ export function combineDateTime(date: string, time: string): string {
     }
 
     try {
-        // Crear fecha base en la zona horaria local
+        // Crear fecha base
         const dateObj = new Date(date);
         
         // Separar la hora en horas y minutos
@@ -17,7 +17,7 @@ export function combineDateTime(date: string, time: string): string {
             return '';
         }
 
-        // Crear nueva fecha con la hora en la zona horaria local
+        // Crear fecha combinada manteniendo la zona horaria local
         const combinedDate = new Date(
             dateObj.getFullYear(),
             dateObj.getMonth(),
@@ -27,11 +27,17 @@ export function combineDateTime(date: string, time: string): string {
             0
         );
 
-        // Ajustar la fecha para la zona horaria UTC
-        const userTimezoneOffset = combinedDate.getTimezoneOffset() * 60000;
-        const adjustedDate = new Date(combinedDate.getTime() - userTimezoneOffset);
+        // Convertir a UTC para almacenamiento
+        const utcDate = new Date(Date.UTC(
+            combinedDate.getFullYear(),
+            combinedDate.getMonth(),
+            combinedDate.getDate(),
+            hours,
+            minutes,
+            0
+        ));
 
-        return adjustedDate.toISOString();
+        return utcDate.toISOString();
     } catch (error) {
         console.error('Error al combinar fecha y hora:', error);
         return '';
