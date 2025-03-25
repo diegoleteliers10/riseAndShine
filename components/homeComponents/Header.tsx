@@ -1,22 +1,24 @@
 import Image from "next/image"
+import Link from "next/link"
 
 function Header() {
   return (
     <header id="navbar" className="fixed w-full bg-white shadow-md z-50 transition duration-300 ease-in-out">
       <nav className="container mx-auto">
         <div className="flex items-center justify-between px-3 md:px-0">
-          <Image 
-            src="/pictures/logo.webp"
-            alt="Rise & Shine"
-            width={80}
-            height={80}  
-            loading="lazy"
-          />
+          <Link href="/">
+            <Image 
+              src="/pictures/logo.webp"
+              alt="Rise & Shine"
+              width={80}
+              height={80}  
+              loading="lazy"
+            />
+          </Link>
           {/* <!-- <div className="text-2xl font-bold text-cloud">
             Rise & Shine
           </div> --> */}
           <div className="hidden md:flex space-x-8">
-            <a href="#inicio" className="text-cloud-dark hover:text-cloud">Inicio</a>
             <a href="#servicios" className="text-cloud-dark hover:text-cloud">Servicios</a>
             <a href="#precios" className="text-cloud-dark hover:text-cloud">Precios</a>
             <a href="#contacto" className="text-cloud-dark hover:text-cloud">Contacto</a>

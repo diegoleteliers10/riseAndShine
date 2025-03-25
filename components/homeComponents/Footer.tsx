@@ -33,24 +33,20 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">Enlaces Rápidos</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#faqs" className="text-cloud-light hover:text-white"
+                <a href="/faqs" className="text-cloud-light hover:text-white"
                   >FAQs</a>
               </li>
               <li>
-                <a href="#privacidad" className="text-cloud-light hover:text-white"
+                <a href="/politicas" className="text-cloud-light hover:text-white"
                   >Política de Privacidad</a>
               </li>
               <li>
-                <a href="#terminos" className="text-cloud-light hover:text-white"
+                <a href="/terminos" className="text-cloud-light hover:text-white"
                   >Términos de Servicio</a>
               </li>
               <li>
                 <a href="#sobre-nosotros" className="text-cloud-light hover:text-white"
                   >Sobre Nosotros</a>
-              </li>
-              <li>
-                <a href="#soporte" className="text-cloud-light hover:text-white"
-                  >Soporte</a>
               </li>
             </ul>
           </div>

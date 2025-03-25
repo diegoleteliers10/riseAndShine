@@ -53,6 +53,7 @@ export async function POST(request: Request) {
         servicio: body.servicio,
         monto: body.monto,
         fecha_servicio: body.fecha_servicio,
+        direccion_servicio: body.direccion
       })
       .select()
 
