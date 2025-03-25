@@ -22,15 +22,19 @@ function ContactContent() {
   });
   const searchParams = useSearchParams();
   const dateService = searchParams.get('fecha_servicio') || '';
+
+  // Agregar logs para debugging
+  console.log('Fecha seleccionada (local):', new Date(dateService).toLocaleString());
+  console.log('Hora seleccionada:', time_servicio);
+
   const combineDate = dateService && time_servicio 
     ? combineDateTime(dateService, time_servicio)
     : '';
 
-  console.log('Valores para combinar:', {
-    dateService,
-    time_servicio,
-    resultado: combineDate
-  });
+  // Verificar el resultado final
+  if (combineDate) {
+    console.log('Fecha y hora combinada (local):', new Date(combineDate).toLocaleString());
+  }
 
   const id = useId();
 

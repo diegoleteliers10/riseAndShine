@@ -6,28 +6,32 @@ export function combineDateTime(date: string, time: string): string {
     }
 
     try {
-        // Asegurarnos de que la fecha esté en formato YYYY-MM-DD
+        // Crear fecha base en la zona horaria local
         const dateObj = new Date(date);
-        if (isNaN(dateObj.getTime())) {
-            console.log('Fecha inválida:', date);
-            return '';
-        }
-
+        
         // Separar la hora en horas y minutos
         const [hours, minutes] = time.split(':').map(Number);
         
-        // Validar que las horas y minutos sean números válidos
         if (isNaN(hours) || isNaN(minutes)) {
             console.log('Hora inválida:', time);
             return '';
         }
 
-        // Crear nueva fecha con la hora
-        const combinedDate = new Date(dateObj);
-        combinedDate.setHours(hours, minutes, 0);
+        // Crear nueva fecha con la hora en la zona horaria local
+        const combinedDate = new Date(
+            dateObj.getFullYear(),
+            dateObj.getMonth(),
+            dateObj.getDate(),
+            hours,
+            minutes,
+            0
+        );
 
-        // Retornar en formato ISO
-        return combinedDate.toISOString();
+        // Ajustar la fecha para la zona horaria UTC
+        const userTimezoneOffset = combinedDate.getTimezoneOffset() * 60000;
+        const adjustedDate = new Date(combinedDate.getTime() - userTimezoneOffset);
+
+        return adjustedDate.toISOString();
     } catch (error) {
         console.error('Error al combinar fecha y hora:', error);
         return '';
