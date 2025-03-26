@@ -23,14 +23,7 @@ const geistMono = Geist_Mono({
 
 import { Toaster } from "@/components/ui/sonner"
 import type { Metadata } from "next";
-
-// Declarar los tipos globalmente
-declare global {
-  interface Window {
-    dataLayer: any[];
-    gtag: (...args: any[]) => void;
-  }
-}
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 export const metadata: Metadata = {
   title: "Rise & Shine | Servicio de Lavado de Autos a Domicilio",
@@ -71,7 +64,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-2616PXH3YB" />
+        <GoogleAnalytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
