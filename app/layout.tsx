@@ -3,6 +3,9 @@ import "./globals.css";
 import Aos from "@/components/Aos";
 import 'aos/dist/aos.css';
 import { Analytics } from "@vercel/analytics/react"
+import Head from "next/head";
+import { DefaultSeo } from "next-seo";
+import SEO from "@/next-seo.config"; // Configuración SEO Global
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,10 +33,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
+      <Head>
+        <DefaultSeo {...SEO} />
         <meta name="next-size-adjust" content="no" />
         <meta property="og:image" content="https://res.cloudinary.com/dfjzdxfop/image/upload/v1743015141/piq1s2ztdrrlrqqghlcu.png"/>
-      </head>
+      </Head>
       <Aos/>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased overflow-x-hidden`}

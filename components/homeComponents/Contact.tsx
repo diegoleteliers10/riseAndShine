@@ -49,7 +49,7 @@ function ContactContent() {
     };
 
     try {
-      const response = await fetch('http://localhost:3000/api/order', {
+      const response = await fetch('https://riseandshine.cl/api/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
