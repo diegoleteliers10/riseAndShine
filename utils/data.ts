@@ -1,18 +1,18 @@
 export const services = [
   {
-    title: "Servicio Completo",
+    title: "Completo",
     description:
       "Limpieza integral por fuera y por dentro. Incluye lavado exterior, aspirado y limpieza interior detallada.",
     icon: "✨",
   },
   {
-    title: "Limpieza Exterior",
+    title: "Exterior",
     description:
       "Lavado completo de carrocería, llantas y vidrios. Perfecto para mantener el brillo exterior.",
     icon: "🚿",
   },
   {
-    title: "Limpieza Interior",
+    title: "Interior",
     description:
       "Aspirado profundo, limpieza de tapicería, tablero y todas las superficies interiores.",
     icon: "🧹",

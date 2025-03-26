@@ -8,8 +8,8 @@ import HomeLayout from "@/components/layout/homeLayout";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Rise & Shine',
-  description: 'Rise & Shine, servicio dedicado al lavado de autos velando por la calidad y el confort de nuestros clientes a costos accesibles.',
+  title: 'Rise & Shine | Servicio Profesional de Lavado de Autos a Domicilio',
+  description: 'Expertos en lavado de autos a domicilio. Ofrecemos servicios de limpieza interior, exterior y completa para tu vehículo con la mayor calidad y comodidad.',
 };
 
 export default function Home() {
