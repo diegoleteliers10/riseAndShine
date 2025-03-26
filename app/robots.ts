@@ -17,6 +17,6 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: 'https://riseandshine.cl/sitemap.xml',
+    sitemap: 'https://www.riseandshine.cl/sitemap.xml',
   }
 }
