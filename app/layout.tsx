@@ -113,6 +113,7 @@ interface SeoProps {
     name: string;
     content: string;
   }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   jsonLd?: any;
 }
 
