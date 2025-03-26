@@ -32,7 +32,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="next-size-adjust" content="no" />
-        <meta property="og:image" content="https://res.cloudinary.com/dfjzdxfop/image/upload/v1743015141/piq1s2ztdrrlrqqghlcu.png">
+        <meta property="og:image" content="https://res.cloudinary.com/dfjzdxfop/image/upload/v1743015141/piq1s2ztdrrlrqqghlcu.png"/>
       </head>
       <Aos/>
       <body
