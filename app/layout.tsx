@@ -5,7 +5,6 @@ import 'aos/dist/aos.css';
 import { Analytics } from "@vercel/analytics/react"
 import Head from "next/head";
 import { DefaultSeo } from "next-seo";
-import SEO from "@/next-seo.config"; // Configuración SEO Global
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 import { Toaster } from "@/components/ui/sonner"
+import SEO from "@/next-seo.config";
 
 export default function RootLayout({
   children,

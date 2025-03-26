@@ -15,6 +15,6 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: 'https://rsservices.vercel.app/sitemap.xml',
+    sitemap: 'https://riseandshine.cl/sitemap.xml',
   }
 }

@@ -170,61 +170,71 @@ function ContactContent() {
             </h3>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-cloud-dark mb-2">Nombre</label>
+                <label htmlFor="nombre" className="block text-cloud-dark mb-2">Nombre</label>
                 <input
                   type="text"
                   id="nombre"
+                  name="nombre"
                   value={formData.nombre}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-cloud"
                   placeholder="Ej. Juan Perez"
                   required
+                  aria-label="Nombre completo"
                 />
               </div>
               <div>
-                <label className="block text-cloud-dark mb-2">Email</label>
+                <label htmlFor="email" className="block text-cloud-dark mb-2">Email</label>
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   value={formData.email}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-cloud"
                   placeholder="Ej. xxxxx@xxxx.com"
                   required
+                  aria-label="Correo electrónico"
                 />
               </div>
               <div>
-                <label className="block text-cloud-dark mb-2">Telefono</label>
+                <label htmlFor="telefono" className="block text-cloud-dark mb-2">Teléfono</label>
                 <input
-                  type="text"
+                  type="tel"
                   id="telefono"
+                  name="telefono"
                   value={formData.telefono}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-cloud"
                   placeholder="Ej. +56 9 xxxxxxxx"
                   required
+                  aria-label="Número de teléfono"
                 />
               </div>
               <div>
-                <label className="block text-cloud-dark mb-2">Dirección del Lavado</label>
+                <label htmlFor="direccion" className="block text-cloud-dark mb-2">Dirección del Lavado</label>
                 <input
                   type="text"
                   id="direccion"
+                  name="direccion"
                   value={formData.direccion}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-cloud"
                   placeholder="Ej. Av. Principal 123, Comuna"
                   required
+                  aria-label="Dirección del servicio"
                 />
               </div>
               <div>
-                <label className="block text-cloud-dark mb-2">Elija su servicio</label>
+                <label htmlFor="servicio" className="block text-cloud-dark mb-2">Elija su servicio</label>
                 <select
                   id="servicio"
+                  name="servicio"
                   value={formData.servicio}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-cloud text-cloud-dark/80"
                   required
+                  aria-label="Tipo de servicio"
                 >
                   <option value="" disabled>Elige tu servicio</option>
                   <option value="Interior 12000">Lavado Interior - $12.000</option>
@@ -242,12 +252,11 @@ function ContactContent() {
                   </div>
                 </div>
                 <div className="flex gap-3 flex-col">
-                  <label className="block text-cloud-dark mb-2"
-                    >Selecciona tu hora</label
-                  >
+                  <label htmlFor={id} className="block text-cloud-dark mb-2">Selecciona tu hora</label>
                   <div className="relative max-w-[240px]">
                     <Input
                       id={id}
+                      name="time_servicio"
                       type="time"
                       step="60"
                       value={time_servicio}
@@ -260,6 +269,7 @@ function ContactContent() {
                       required
                       min="09:00"
                       max="20:00"
+                      aria-label="Hora del servicio"
                     />
                     <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
                       <Clock size={16} strokeWidth={2} aria-hidden="true" />
