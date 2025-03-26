@@ -68,7 +68,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "AutoService",
+              "@type": "AutoWash",
               "name": "Rise & Shine",
               "description": "Servicio de lavado de autos a domicilio",
               "url": "https://www.riseandshine.cl",
