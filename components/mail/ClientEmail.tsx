@@ -1,19 +1,17 @@
-import type React from "react"
+import * as React from 'react';
 import {
   Body,
+  Button,
   Container,
-  Column,
   Head,
   Heading,
   Hr,
   Html,
-  Img,
-  Link,
   Preview,
-  Row,
   Section,
   Text,
-} from "@react-email/components"
+  Tailwind,
+} from '@react-email/components';
 
 interface EmailTemplateProps {
   customerName: string
@@ -26,6 +24,7 @@ interface EmailTemplateProps {
   totalAmount: string
   paymentMethod: string
   paymentStatus: string
+  serviceLocation: string
   orderDateTime?: string
   companyName?: string
   companyLogo?: string
@@ -41,22 +40,11 @@ export const ClientEmail: React.FC<EmailTemplateProps> = ({
   serviceDate,
   serviceTime,
   totalAmount,
+  serviceLocation,
   companyName = "Rise & Shine",
   companyPhone = "+56 9 92187281",
   companyEmail = "r.shine1090@outlook.com",
 }) => {
-  const previewText = `Confirmación de Servicio #${orderNumber} - ${companyName}`
-
-  // Definición de colores
-  const colors = {
-    cloudLight: "#99b1eb",
-    cloud: "#3268bb",
-    cloudDark: "#49597c",
-    white: "#ffffff",
-    lightGray: "#f8f9fa",
-    borderColor: "#e9ecef",
-  }
-
   const priceFormateado = new Intl.NumberFormat('es-CL', {
     style: 'currency',
     currency: 'CLP',
@@ -65,230 +53,112 @@ export const ClientEmail: React.FC<EmailTemplateProps> = ({
   return (
     <Html>
       <Head />
-      <Preview>{previewText}</Preview>
-      <Body style={{ ...main, backgroundColor: colors.lightGray }}>
-        <Container style={container}>
-          {/* Header with logo */}
-          <Section style={{ ...logoContainer }}>
-            <Img src="https://res.cloudinary.com/dfjzdxfop/image/upload/v1742353283/igz0pz8b2ngqgwjwv8ew.webp" width="200" height="200" alt={companyName} style={logo} />
-          </Section>
+      <Preview>Rise & Shine: Confirmación de su servicio de lavado de auto #{orderNumber}</Preview>
+      <Tailwind>
+        <Body className="bg-gray-100 font-sans">
+          <Container className="mx-auto my-[40px] bg-white p-[20px] rounded-[8px] shadow-sm max-w-[600px]">
+            {/* Header */}
+            <Section className="mt-[32px]">
+              <Heading className="text-[24px] font-bold text-center text-blue-600 my-[16px]">
+                {companyName}
+              </Heading>
+              <Text className="text-[16px] text-center text-gray-500 italic">
+                Expertos en limpieza automotriz
+              </Text>
+            </Section>
+            
+            <Hr className="border border-gray-200 my-[20px]" />
+            
+            {/* Main Content */}
+            <Section>
+              <Heading className="text-[20px] font-bold text-gray-800 mb-[16px]">
+                ¡Gracias por su compra!
+              </Heading>
+              
+              <Text className="text-[16px] text-gray-700 mb-[16px]">
+                Hola {customerName},
+              </Text>
+              
+              <Text className="text-[16px] text-gray-700 mb-[16px]">
+                Le confirmamos que su reserva para nuestro servicio de <strong>{serviceType}</strong> ha sido registrada exitosamente. A continuación, encontrará los detalles de su compra:
+              </Text>
+              
+              <Section className="bg-gray-50 p-[16px] rounded-[8px] my-[24px]">
+                <Text className="text-[16px] font-bold text-gray-800 mb-[8px]">
+                  Detalles del Servicio:
+                </Text>
+                <Text className="text-[15px] text-gray-700 my-[4px]">
+                  <strong>N° de Orden:</strong> {orderNumber}
+                </Text>
+                <Text className="text-[15px] text-gray-700 my-[4px]">
+                  <strong>Servicio:</strong> {serviceType}
+                </Text>
+                <Text className="text-[15px] text-gray-700 my-[4px]">
+                  <strong>Fecha:</strong> {serviceDate}
+                </Text>
+                <Text className="text-[15px] text-gray-700 my-[4px]">
+                  <strong>Hora:</strong> {serviceTime} hrs
+                </Text>
+                <Text className="text-[15px] text-gray-700 my-[4px]">
+                  <strong>Dirección:</strong> {serviceLocation}
+                </Text>
+                <Text className="text-[15px] text-gray-700 my-[4px]">
+                  <strong>Precio Total:</strong> {priceFormateado}
+                </Text>
+              </Section>
+              
+              <Text className="text-[16px] text-gray-700 mb-[16px]">
+                Para garantizar un servicio óptimo, le recomendamos:
+              </Text>
 
-          {/* Greeting */}
-          <Section style={section}>
-            <Heading style={{ ...heading, color: colors.cloud }}>¡Gracias por su pedido!</Heading>
-            <Text style={{ ...paragraph, color: colors.cloudDark }}>
-              Hola <span style={{ fontWeight: "bold" }}>{customerName}</span>,
-            </Text>
-            <Text style={{ ...paragraph, color: colors.cloudDark }}>
-              Hemos recibido su solicitud de servicio de limpieza para su vehículo. A continuación encontrará los
-              detalles de su pedido:
-            </Text>
-          </Section>
-
-          {/* Order details */}
-          <Section style={{ ...orderDetailsContainer, backgroundColor: colors.white }}>
-            <Heading as="h2" style={{ ...subheading, color: colors.cloud }}>Detalles del Servicio</Heading>
-
-            <Row style={orderRow}>
-              <Column style={orderLabelColumn}>Número de Orden:</Column>
-              <Column style={orderValueColumn}>{orderNumber}</Column>
-            </Row>
-
-            <Row style={orderRow}>
-              <Column style={orderLabelColumn}>Tipo de Servicio:</Column>
-              <Column style={orderValueColumn}>{serviceType}</Column>
-            </Row>
-
-            <Row style={orderRow}>
-              <Column style={orderLabelColumn}>Fecha:</Column>
-              <Column style={orderValueColumn}>{serviceDate}</Column>
-            </Row>
-
-            <Row style={orderRow}>
-              <Column style={orderLabelColumn}>Hora:</Column>
-              <Column style={orderValueColumn}>{serviceTime}</Column>
-            </Row>
-
-            <Hr style={{ ...divider, borderColor: colors.borderColor }} />
-
-            <Row style={orderRow}>
-              <Column style={orderLabelColumn}>Total:</Column>
-              <Column style={orderValueColumn}>
-                <strong>{priceFormateado}</strong>
-              </Column>
-            </Row>
-          </Section>
-
-          {/* Recommendations */}
-          <Section style={section}>
-            <Heading as="h2" style={{ ...subheading, color: colors.cloud }}>Recomendaciones</Heading>
-            <Text style={{ ...paragraph, color: colors.cloudDark }}>
-              Para obtener los mejores resultados de nuestro servicio, le recomendamos:
-            </Text>
-            <ul style={list}>
-              <li style={listItem}>Retirar objetos personales del vehículo antes del servicio</li>
-              <li style={listItem}>Informarnos sobre cualquier área que requiera atención especial</li>
-              <li style={listItem}>Llegar 5-10 minutos antes de su cita programada</li>
-              <li style={listItem}>Para cancelaciones, por favor avise con al menos 24 horas de anticipación</li>
-            </ul>
-          </Section>
-
-          {/* Call to action */}
-          <Section style={ctaContainer}>
-            <Link href="#" style={{ ...button, backgroundColor: colors.cloud }}>
-              Ver Detalles de la Orden
-            </Link>
-          </Section>
-
-          {/* Footer */}
-          <Section style={{ ...footer, backgroundColor: colors.cloudDark }}>
-            <Text style={{ ...footerText, color: colors.white }}>
-              Si tiene alguna pregunta o necesita asistencia, no dude en contactarnos:
-            </Text>
-            <Text style={{ ...footerText, color: colors.white }}>
-              Teléfono: {companyPhone} | Email: {companyEmail}
-            </Text>
-            <Hr style={{ ...divider, borderColor: colors.borderColor }} />
-            <Text style={{ ...copyright, color: colors.borderColor }}>
-              © {new Date().getFullYear()} {companyName}. Todos los derechos reservados.
-            </Text>
-          </Section>
-        </Container>
-      </Body>
+              <Text className="text-[15px] text-gray-700 my-[4px]">
+                • Retirar objetos personales del vehículo antes del servicio
+              </Text>
+              <Text className="text-[15px] text-gray-700 my-[4px]">
+                • Informarnos sobre cualquier área que requiera atención especial
+              </Text>
+              <Text className="text-[15px] text-gray-700 my-[4px]">
+                • Llegar 5-10 minutos antes de su cita programada
+              </Text>
+              <Text className="text-[15px] text-gray-700 my-[4px]">
+                • Para cancelaciones, por favor avise con al menos 24 horas de anticipación
+              </Text>
+              
+              <Button
+                className="bg-blue-600 text-white font-bold py-[12px] px-[20px] rounded-[4px] text-[14px] no-underline text-center block box-border mt-[24px]"
+                href="https://riseandshine.cl/mi-reserva"
+              >
+                Ver mi reserva
+              </Button>
+            </Section>
+            
+            <Hr className="border border-gray-200 my-[32px]" />
+            {/* Footer */}
+            <Section>
+              <Text className="text-[14px] text-gray-600 text-center">
+                ¿Tiene alguna pregunta? Contáctenos al <a href={`tel:${companyPhone}`} className="text-blue-600">{companyPhone}</a> o por correo a <a href={`mailto:${companyEmail}`} className="text-blue-600">{companyEmail}</a>
+              </Text>
+              
+              <Text className="text-[14px] text-gray-600 text-center mt-[16px]">
+                Síganos en nuestras redes sociales para conocer promociones exclusivas:
+              </Text>
+              
+              <Text className="text-[14px] text-gray-600 text-center">
+                <a href="https://instagram.com/rise.and.shine.co" className="text-blue-600 mx-[8px]">Instagram</a>
+              </Text>
+              
+              <Hr className="border border-gray-200 my-[20px]" />
+              
+              <Text className="text-[12px] text-gray-500 text-center m-0">
+                © {new Date().getFullYear()} {companyName}. Todos los derechos reservados.
+              </Text>
+            </Section>
+          </Container>
+        </Body>
+      </Tailwind>
     </Html>
-  )
-}
+  );
+};
 
-// Styles
-const main = {
-  padding: "20px",
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif',
-}
-
-const container = {
-  backgroundColor: "#ffffff",
-  margin: "0 auto",
-  padding: "0 0 0 0",
-  maxWidth: "600px",
-  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-  borderRadius: "8px",
-  overflow: "hidden",
-}
-
-const section = {
-  padding: "24px 32px",
-  marginBottom: "24px",
-}
-
-const logoContainer = {
-  padding: "24px",
-  textAlign: "center" as const,
-  borderBottom: "1px solid #e9ecef",
-}
-
-const logo = {
-  margin: "0 auto",
-  filter: "brightness(0) invert(1)",
-}
-
-const heading = {
-  fontSize: "28px",
-  fontWeight: "bold",
-  marginBottom: "16px",
-  marginTop: "0",
-}
-
-const subheading = {
-  fontSize: "20px",
-  fontWeight: "bold",
-  marginBottom: "16px",
-  marginTop: "0",
-}
-
-const paragraph = {
-  fontSize: "16px",
-  lineHeight: "24px",
-  marginBottom: "16px",
-}
-
-const orderDetailsContainer = {
-  padding: "24px 32px",
-  margin: "0 32px 24px 32px",
-  borderRadius: "8px",
-}
-
-const orderRow = {
-  marginBottom: "12px",
-  display: "flex",
-  flexDirection: "row" as const,
-}
-
-const orderLabelColumn = {
-  width: "40%",
-  fontSize: "14px",
-}
-
-const orderValueColumn = {
-  width: "60%",
-  fontSize: "14px",
-}
-
-const divider = {
-  margin: "16px 0",
-  borderWidth: "1px",
-  borderStyle: "solid",
-}
-
-const list = {
-  paddingLeft: "0",
-  margin: "0 0 24px",
-  listStyleType: "none",
-}
-
-const listItem = {
-  fontSize: "14px",
-  lineHeight: "24px",
-  marginBottom: "12px",
-  display: "flex",
-}
-
-const ctaContainer = {
-  padding: "24px 32px",
-  textAlign: "center" as const,
-  marginBottom: "24px",
-}
-
-const button = {
-  borderRadius: "6px",
-  color: "#fff",
-  fontSize: "16px",
-  fontWeight: "bold",
-  textDecoration: "none",
-  textAlign: "center" as const,
-  display: "inline-block",
-  padding: "14px 32px",
-}
-
-const footer = {
-  padding: "32px 24px",
-  borderTop: "1px solid #e9ecef",
-}
-
-const footerText = {
-  fontSize: "14px",
-  lineHeight: "20px",
-  marginBottom: "8px",
-  textAlign: "center" as const,
-}
-
-const copyright = {
-  fontSize: "12px",
-  lineHeight: "16px",
-  textAlign: "center" as const,
-  marginTop: "16px",
-  marginBottom: "0",
-}
-
-export default ClientEmail
+export default ClientEmail;
 
