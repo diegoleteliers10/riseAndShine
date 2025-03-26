@@ -8,6 +8,8 @@ import HomeLayout from "@/components/layout/homeLayout";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://riseandshine.cl'),
+  keywords:["lavado de autos", "lavado a domicilio", "barato", "limpieza de vehículos", "lavado economico"],
   title: 'Rise & Shine | Servicio de Lavado de Autos a Domicilio',
   description: 'Expertos en lavado de autos a domicilio. Ofrecemos servicios de limpieza interior, exterior y completa para tu vehículo con la mayor calidad y comodidad.',
 };

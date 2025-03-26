@@ -3,8 +3,6 @@ import "./globals.css";
 import Aos from "@/components/Aos";
 import 'aos/dist/aos.css';
 import { Analytics } from "@vercel/analytics/react"
-import Head from "next/head";
-import { DefaultSeo } from "next-seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +22,38 @@ const geistMono = Geist_Mono({
 });
 
 import { Toaster } from "@/components/ui/sonner"
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Rise & Shine | Servicio de Lavado de Autos a Domicilio",
+  description: "Expertos en lavado de autos a domicilio. Ofrecemos servicios de limpieza interior, exterior y completa para tu vehículo con la mayor calidad y comodidad.",
+  keywords: ["lavado de autos", "servicio a domicilio", "limpieza de vehiculos", "lavado interior", "lavado exterior"],
+  metadataBase: new URL('https://www.riseandshine.cl'),
+  alternates: {
+    canonical: '/'
+  },
+  openGraph: {
+    title: "Rise & Shine - Lavado de Autos a Domicilio",
+    description: "Servicio profesional de lavado de autos en la comodidad de tu hogar",
+    url: 'https://www.riseandshine.cl',
+    siteName: 'Rise & Shine',
+    images: [
+      {
+        url: 'https://res.cloudinary.com/dfjzdxfop/image/upload/v1743015141/piq1s2ztdrrlrqqghlcu.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: 'es_CL',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Rise & Shine - Lavado de Autos a Domicilio",
+    description: "Servicio profesional de lavado de autos en la comodidad de tu hogar",
+    images: ['https://res.cloudinary.com/dfjzdxfop/image/upload/v1743015141/piq1s2ztdrrlrqqghlcu.png'],
+  },
+};
 
 export default function RootLayout({
   children,
@@ -32,38 +61,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <Head>
-        <meta name="next-size-adjust" content="no" />
-        <meta property="og:image" content="https://res.cloudinary.com/dfjzdxfop/image/upload/v1743015141/piq1s2ztdrrlrqqghlcu.png"/>
-        <DefaultSeo
-          title="Rise & Shine | Servicio de Lavado de Autos a Domicilio"
-          description="Expertos en lavado de autos a domicilio. Ofrecemos servicios de limpieza interior, exterior y completa para tu vehículo con la mayor calidad y comodidad."
-          canonical="https://riseandshine.cl"
-          openGraph={{
-            type: 'website',
-            locale: 'es_CL',
-            url: 'https://riseandshine.cl',
-            siteName: 'Rise & Shine',
+    <html lang="es">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "AutoService",
+              "name": "Rise & Shine",
+              "description": "Servicio de lavado de autos a domicilio",
+              "url": "https://www.riseandshine.cl",
+              "telephone": "+56992187281",
+              "openingHoursSpecification": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                "opens": "09:00",
+                "closes": "21:00"
+              }
+            })
           }}
-          additionalMetaTags={[
-            {
-              name: 'keywords',
-              content: 'lavado de autos, lavado a domicilio, detailing, limpieza de vehículos'
-            }
-          ]}
-          additionalLinkTags={[
-            {
-              rel: 'icon',
-              href: '/favicon.ico'
-            }
-          ]}
         />
-      </Head>
-      <Aos/>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased overflow-x-hidden`}
-      >
+        >
+        <Aos/>
         {children}
         <Analytics />
         <Toaster />
