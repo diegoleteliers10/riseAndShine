@@ -24,6 +24,14 @@ const geistMono = Geist_Mono({
 import { Toaster } from "@/components/ui/sonner"
 import type { Metadata } from "next";
 
+// Declarar los tipos globalmente
+declare global {
+  interface Window {
+    dataLayer: any[];
+    gtag: (...args: any[]) => void;
+  }
+}
+
 export const metadata: Metadata = {
   title: "Rise & Shine | Servicio de Lavado de Autos a Domicilio",
   description: "Expertos en lavado de autos a domicilio. Ofrecemos servicios de limpieza interior, exterior y completa para tu vehículo con la mayor calidad y comodidad.",
@@ -63,14 +71,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-2616PXH3YB"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          
-          gtag('config', 'G-2616PXH3YB');
-        </script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-2616PXH3YB" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
