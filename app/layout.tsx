@@ -65,6 +65,7 @@ export default function RootLayout({
     <html lang="es">
       <head>
         <GoogleAnalytics />
+        <meta name="msvalidate.01" content="1511CC47E8659FB04EB3C1E9ECBAF9E1" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
