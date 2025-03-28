@@ -1,0 +1,47 @@
+{
+  "name": "electronapp",
+  "version": "1.0.0",
+  "description": "Electron application for Rise and Shine",
+  "main": "main.js",
+  "homepage": "https://riseandshine.cl",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder build"
+  },
+  "build":{
+    "appId": "com.riseandshine.app",
+    "productName": "Rise and Shine",
+    "files":["main.js","node_modules/**/*"],
+    "mac":{
+      "target": "dmg",
+      "icon": "build/icons/favicon.icns"
+    },
+    "win":{
+      "target": "nsis",
+      "icon": "build/icons/favicon.ico"
+    },
+    "linux":{
+      "target": "deb",
+      "category": "Office",
+      "icon": "build/icons/favicon.png",
+      "desktop": {
+        "entry": {
+          "Name": "Rise and Shine",
+          "Type": "Application",
+          "Categories": "Office;Network"
+        }
+      }
+    }
+  },
+  "keywords": ["electron", "desktop", "application"],
+  "author": {
+    "name": "Rise and Shine Team",
+    "email": "diegoleteliers10@gmail.com"
+  },
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^35.1.2",
+    "electron-builder": "^26.0.12"
+  }
+}
