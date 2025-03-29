@@ -18,10 +18,10 @@
              node-version: '23.7.0'  # or your Node version
              
          - name: Install dependencies
-           run: npm install
+           run: cd electronApp && npm install
            
          - name: Build macOS
-           run: npm run build -- --mac --project-path electronApp
+           run: npm run build -- --mac
            
          - name: Upload artifacts
            uses: actions/upload-artifact@v4
