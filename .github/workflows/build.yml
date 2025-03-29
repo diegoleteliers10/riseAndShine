@@ -21,7 +21,7 @@
            run: cd electronApp && npm install
            
          - name: Build macOS
-           run: npm run build -- --mac
+           run: cd electronApp && npm run build -- --mac
            
          - name: Upload artifacts
            uses: actions/upload-artifact@v4
