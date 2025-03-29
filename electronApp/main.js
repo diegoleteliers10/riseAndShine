@@ -13,7 +13,7 @@ function createWindow() {
     },
     frame: true,
     titleBarStyle: 'hiddenInset',
-    icon: path.join(__dirname, '../public/favicon.ico'),
+    icon: path.join(__dirname, './build/icons/favicon.ico'),
     title: 'Rise and Shine'
   })
 
