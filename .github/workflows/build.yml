@@ -22,14 +22,14 @@
          
          - name: Build macOS
            run: cd electronApp && npm run build -- --mac
-        
-         - name: List files in electronApp
-           run: ls -la electronApp
-
+         
+         - name: List files in dist after build
+           run: ls -la electronApp/dist
+         
          - name: Upload artifacts
            uses: actions/upload-artifact@v4
            with:
              name: mac-build
              path: |
-               dist/mac-arm64/*.dmg
-               dist/mac-arm64/*.zip
+               electronApp/dist/*.dmg
+               electronApp/dist/*.zip
