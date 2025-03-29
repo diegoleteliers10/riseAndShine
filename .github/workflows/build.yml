@@ -28,5 +28,5 @@
            with:
              name: mac-build
              path: |
-               dist/*.dmg
-               dist/*.zip
+               dist/mac-arm64/*.dmg
+               dist/mac-arm64/*.zip
