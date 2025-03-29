@@ -20,6 +20,12 @@
          - name: Install dependencies
            run: cd electronApp && npm install
            
+         - name: List current directory
+           run: ls -la
+         
+         - name: List files in electronApp
+           run: ls -la electronApp
+         
          - name: Build macOS
            run: cd electronApp && npm run build -- --mac
         
