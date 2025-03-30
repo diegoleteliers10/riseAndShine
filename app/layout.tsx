@@ -75,7 +75,13 @@ export default function RootLayout({
               "name": "Rise & Shine",
               "description": "Servicio de lavado de autos a domicilio",
               "url": "https://www.riseandshine.cl",
-              "address":"Av Ricardo Lyon 1194",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Av Ricardo Lyon 1194",
+                "addressLocality": "Santigo",
+                "addressCountry": "CL",
+                "postalCode": "7500000"
+              },
               "telephone": "+56992187281",
               "priceRange": "CLP 10.000-CLP 20.000",
               "openingHoursSpecification": {
