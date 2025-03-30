@@ -126,7 +126,7 @@ export const ClientEmail: React.FC<EmailTemplateProps> = ({
               
               <Button
                 className="bg-blue-600 text-white font-bold py-[12px] px-[20px] rounded-[4px] text-[14px] no-underline text-center block box-border mt-[24px]"
-                href="https://www.riseandshine.cl/mi-reserva"
+                href={`https://www.riseandshine.cl/mi-reserva/${orderNumber}`}
               >
                 Ver mi reserva
               </Button>

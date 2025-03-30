@@ -15,7 +15,7 @@ export default function Hero() {
             Hacemos brillar tu vehículo por dentro y por fuera
           </h1>
           <p className="hero_subtitle" data-aos="fade-top" data-aos-delay="600">
-            En Rise & Shine nos especializamos en darle a tu auto el cuidado que
+            En Rise & Shine nos especializamos en darle a tu auto el lavado que
             merece, con servicios de alta calidad a precios accesibles.
           </p>
           <div className="flex justify-center lg:justify-normal space-x-4 mt-6">
@@ -32,7 +32,7 @@ export default function Hero() {
               Contáctanos
             </a>
           </div>
-          <p className="text-[12px] mt-4">* Valido solo para las comunas de las condes, vitacura, y lo barnechea.</p>
+          <p className="text-[12px] mt-4">* Valido solo para las comunas de las condes, vitacura, lo barnechea, providencia, la reina y chicureo.</p>
         </div>
         <Image
           src="/carHero.png"

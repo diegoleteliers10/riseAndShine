@@ -4,7 +4,48 @@ import ical from 'ical-generator';
 import { Resend } from 'resend';
 import ClientEmail from '@/components/mail/ClientEmail';
 
-// GET /api/orders
+// GET /api/order
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const orderId = searchParams.get('id');
+
+  if (!orderId) {
+    return new Response(JSON.stringify({ error: 'ID de pedido no proporcionado' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+  const supabase = createClient()
+
+  try {
+
+    const { data, error } = await supabase
+      .from('pedidos')
+      .select(`
+        *,
+        cliente:clientes(*)  // Esto asume que tienes una tabla 'clientes' y que 'cliente_id' es la clave foránea
+      `)
+      .eq('id', orderId)
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    console.log(data)
+
+    return NextResponse.json(data,
+      { status: 200 }
+    )
+  } catch (error) {
+    return NextResponse.json(
+      { error: `Error al procesar la solicitud, ${error}` },
+      { status: 500 }
+    )
+  }
+}
+
+//crear orden para guardar en la database
 export async function POST(request: Request) {
 
 

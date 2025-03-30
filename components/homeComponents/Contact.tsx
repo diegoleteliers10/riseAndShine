@@ -36,11 +36,11 @@ function ContactContent() {
     setLoading(true);
 
     toast.custom(() => (
-      <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-lg border border-cloud-light/20">
-        <span className="loading loading-spinner loading-md"></span>
-        <div>
+      <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-lg border border-cloud-light/20 w-full max-w-[320px] md:max-w-[400px] lg:max-w-auto">
+        <span className="loading loading-spinner loading-sm md:loading-md"></span>
+        <div className="flex-grow">
           <p className="font-medium text-cloud-dark">Procesando pedido</p>
-          <p className="text-sm text-cloud-dark/70">Tu pedido esta siendo procesado y agendado.</p>
+          <p className="text-sm text-cloud-dark/70">Tu pedido está siendo procesado y <p className="text-sm text-cloud-dark/70 md:inline-block">agendado.</p></p>
         </div>
       </div>
     ), {
@@ -91,11 +91,12 @@ function ContactContent() {
       setLoading(false);
 
       toast.custom(() => (
-        <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-lg border border-cloud-light/20">
-          <CheckCircle className="w-5 h-5 text-cloud-dark" />
-          <div>
+        <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-lg border border-cloud-light/20 w-full max-w-[320px] md:max-w-[600px]">
+          <CheckCircle className="md:w-5 md:h-5 w-3 h-3 text-cloud-dark" />
+          <div className="flex-grow">
             <p className="font-medium text-cloud-dark">Pedido Exitoso</p>
-            <p className="text-sm text-cloud-dark/70">Tu pedido ha sido enviado con exito. Pronto nos pondremos en contacto.</p>
+            <p className="text-sm text-cloud-dark/70">Tu pedido ha sido enviado con exito.</p>
+            <p className="text-sm text-cloud-dark/70">Pronto nos pondremos en contacto.</p>
           </div>
         </div>
       ), {
@@ -106,11 +107,11 @@ function ContactContent() {
       console.error('Error:', error);
       setLoading(false)
       toast.custom(() => (
-        <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-lg">
-          <AlertCircle className="w-5 h-5 text-red-600" />
-          <div>
+        <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-lg w-full max-w-[320px] md:max-w-[600px]">
+          <AlertCircle className="md:w-5 md:h-5 w-3 h-3 text-red-600" />
+          <div className="flex-grow">
             <p className="font-medium text-red-600">Error</p>
-            <p className="text-sm text-red-400">Tu pedido no pudo ser enviado. Por favor, intenta nuevamente.</p>
+            <p className="text-sm text-red-400">Tu pedido no pudo ser enviado. Por favor, <p className="text-sm text-red-400 md:inline-block">intenta nuevamente.</p></p>
           </div>
         </div>
       ), {

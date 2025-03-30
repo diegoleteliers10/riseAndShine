@@ -75,7 +75,9 @@ export default function RootLayout({
               "name": "Rise & Shine",
               "description": "Servicio de lavado de autos a domicilio",
               "url": "https://www.riseandshine.cl",
+              "address":"Av Ricardo Lyon 1194",
               "telephone": "+56992187281",
+              "priceRange": "CLP 10.000-CLP 20.000",
               "openingHoursSpecification": {
                 "@type": "OpeningHoursSpecification",
                 "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
