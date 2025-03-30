@@ -302,7 +302,7 @@ function ContactContent() {
               </p>
               <button
                 type="submit"
-                className="w-full h-[30px] bg-cloud text-white py-2 rounded-full hover:bg-cloud-dark transition duration-300 flex items-center justify-center"
+                className="w-full bg-cloud text-white py-2 rounded-full hover:bg-cloud-dark transition duration-300 flex items-center justify-center"
                 aria-label="Agendar Servicio"
                 onClick={()=> setLoading(true)}
               >
