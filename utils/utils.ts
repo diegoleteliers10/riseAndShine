@@ -7,7 +7,24 @@ export function combineDateTime(date: string, time: string): string {
     return `${date}T${time}:00.000Z`;
 }
 
-export function variacionPorcentualMesIngresos(orders) {
+interface Clients {
+  email: string;
+  nombre: string;
+  telefono: string;
+  createdat: string;
+}
+
+interface Orders {
+  id: number;
+  cliente_id: number;
+  monto: number;
+  fecha_pedido: string;  // Puedes cambiar a Date si lo manejas como objeto Date en TS
+  fecha_servicio: string; // Igual que arriba
+  estado: 'realizado' | 'en-progreso' | 'pendiente';
+  clientes: Clients;
+}
+
+export function variacionPorcentualMesIngresos(orders: Orders[]) {
   // Obtener el mes actual y el anterior
   const fechaActual = new Date();
   const actualYear = fechaActual.getFullYear();
@@ -69,7 +86,7 @@ export function variacionPorcentualMesIngresos(orders) {
   }
 }
 
-export function variacionPorcentualMesClientes(clients) {
+export function variacionPorcentualMesClientes(clients: Clients[]) {
     const fechaActual = new Date();
     const actualYear = fechaActual.getFullYear();
     const mesActualNum = fechaActual.getMonth() + 1
@@ -101,7 +118,9 @@ export function variacionPorcentualMesClientes(clients) {
         });
 
         // Calcular totales
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const totalMesActual = clientesMesActual.reduce((sum, _cliente) => sum + 1, 0);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const totalMesAnterior = clientesMesAnterior.reduce((sum, _cliente) => sum + 1, 0);
 
         // Calcular variación porcentual
@@ -128,7 +147,7 @@ export function variacionPorcentualMesClientes(clients) {
     }
 }
 
-export function variacionPorcentualMesServicios(orders){
+export function variacionPorcentualMesServicios(orders: Orders[]) {
   const fechaActual = new Date();
   const actualYear = fechaActual.getFullYear();
   const mesActualNum = fechaActual.getMonth() + 1
@@ -161,7 +180,9 @@ export function variacionPorcentualMesServicios(orders){
     });
     
     // Calcular totales
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const totalMesActual = pedidosMesActual.reduce((sum, _pedido) => sum + 1, 0);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const totalMesAnterior = pedidosMesAnterior.reduce((sum, _pedido) => sum + 1, 0);
     
     // Calcular variación porcentual

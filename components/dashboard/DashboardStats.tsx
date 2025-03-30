@@ -9,7 +9,7 @@ interface Clients {
   email: string;
   nombre: string;
   telefono: string;
-  createdAt: string;
+  createdat: string;
 }
 
 interface Orders {
@@ -34,7 +34,7 @@ export function DashboardStats({ clients, orders}: { clients: Clients[]; orders:
     style: 'currency',
     currency: 'CLP',
   }).format(ingresosTotales);
-  const nuevosClientesHoy = clients.filter((client) => client.createdAt === today).length;
+  const nuevosClientesHoy = clients.filter((client) => client.createdat === today).length;
   const totalServiciosPendientes = orders.filter((order) => order.estado === 'pendiente').length;
 
   console.log(variacionServicios)
