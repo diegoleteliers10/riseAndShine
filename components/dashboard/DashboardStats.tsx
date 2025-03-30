@@ -1,6 +1,7 @@
 import React from 'react';
 import { StatsCard } from './StatsCard';
 import { Car, DollarSign, Users, Calendar } from 'lucide-react';
+import { variacionPorcentualMesClientes, variacionPorcentualMesIngresos, variacionPorcentualMesServicios } from '@/utils/utils';
 // import { Skeleton } from "@/components/ui/skeleton"
 
 
@@ -23,7 +24,9 @@ interface Orders {
 
 
 export function DashboardStats({ clients, orders}: { clients: Clients[]; orders: Orders[] }) {
-  
+  const variacionIngresos = variacionPorcentualMesIngresos(orders);
+  const variacionClientes = variacionPorcentualMesClientes(clients)
+  const variacionServicios = variacionPorcentualMesServicios(orders)
   const today =new Date().toLocaleDateString("es-ES", {weekday: "long", year: "numeric", month: "long", day: "numeric",})
   const totalServiciosRealizados = orders.filter((order) => order.estado === 'realizado').length;
   const ingresosTotales = orders.reduce((total, order) => total + order.monto, 0);
@@ -34,6 +37,8 @@ export function DashboardStats({ clients, orders}: { clients: Clients[]; orders:
   const nuevosClientesHoy = clients.filter((client) => client.createdAt === today).length;
   const totalServiciosPendientes = orders.filter((order) => order.estado === 'pendiente').length;
 
+  console.log(variacionServicios)
+
 
   return (
     <div className="mt-6 grid gap-6 md:grid-cols-4">
@@ -42,6 +47,7 @@ export function DashboardStats({ clients, orders}: { clients: Clients[]; orders:
         title="Total Servicios"
         value={totalServiciosRealizados}
         icon={<Car className="h-5 w-5 text-cloud-dark" />}
+        cambioPorcentual={variacionServicios.variacionPorcentual}
       />
       {/* } */}
       {/* {loading ? <Skeleton className="w-[220px] h-[150px]" /> :  */}
@@ -49,6 +55,7 @@ export function DashboardStats({ clients, orders}: { clients: Clients[]; orders:
         title="Ingresos Totales"
         value={ingresosTotalesFormateados} 
         icon={<DollarSign className="h-5 w-5 text-cloud-dark" />}
+        cambioPorcentual={variacionIngresos.variacionPorcentual}
       />
       {/* } */}
       {/* {loading ? <Skeleton className="w-[220px] h-[150px]" /> :  */}
@@ -56,6 +63,7 @@ export function DashboardStats({ clients, orders}: { clients: Clients[]; orders:
         title="Clientes Nuevos"
         value={nuevosClientesHoy}
         icon={<Users className="h-5 w-5 text-cloud-dark" />}
+        cambioPorcentual={variacionClientes.variacionPorcentual}
       />
       {/* } */}
       {/* {loading ? <Skeleton className="w-[220px] h-[150px]" /> :  */}

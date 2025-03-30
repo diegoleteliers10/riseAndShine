@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AreaChart,
   Bar,
@@ -12,7 +12,6 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-// import { Skeleton } from "@/components/ui/skeleton"
 
 
 interface ChartData {
@@ -65,20 +64,39 @@ const chartConfig = {
 };
 
 export function Charts({ data }: { data: ChartData[] }) {
+  const [customerFilter, setCustomerFilter] = useState<string>('');
+  const [salesFilter, setSalesFilter] = useState<string>('');
+
+  const filteredCustomerData = customerFilter
+    ? data.filter(item => item.month === customerFilter)
+    : data;
+
+  const filteredSalesData = salesFilter
+    ? data.filter(item => item.month === salesFilter)
+    : data;
+
   return (
     <div className="grid gap-6 md:grid-cols-2">
-      {/* {loading ? <Skeleton className="w-[470px] h-[400px] rounded-lg" /> :  */}
       <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-lg">
-        <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent backdrop-blur-sm" />
-        <CardHeader className="relative">
+        <CardHeader className="relative flex flex-row justify-between items-center">
           <CardTitle className="text-lg font-semibold text-cloud-dark">
             Clientes Mensuales
           </CardTitle>
+          <select
+            value={customerFilter}
+            onChange={(e) => setCustomerFilter(e.target.value)}
+            className="border rounded p-2"
+          >
+            <option value="">Todos los meses</option>
+            {Array.from(new Set(data.map(item => item.month))).map(month => (
+              <option key={month} value={month}>{month}</option>
+            ))}
+          </select>
         </CardHeader>
         <CardContent className="relative">
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <BarChart data={filteredCustomerData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="customerGradient" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#8B4513" stopOpacity={0.2}/>
@@ -105,20 +123,27 @@ export function Charts({ data }: { data: ChartData[] }) {
           </div>
         </CardContent>
       </Card>
-      {/* } */}
 
-      {/* {loading ? <Skeleton className="w-[470px] h-[400px] rounded-lg" /> :  */}
       <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-lg">
-        <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent backdrop-blur-sm" />
-        <CardHeader className="relative">
+        <CardHeader className="relative flex flex-row justify-between items-center">
           <CardTitle className="text-lg font-semibold text-cloud-dark">
             Ventas Mensuales
           </CardTitle>
+          <select
+            value={salesFilter}
+            onChange={(e) => setSalesFilter(e.target.value)}
+            className="border rounded p-2"
+          >
+            <option value="">Todos los meses</option>
+            {Array.from(new Set(data.map(item => item.month))).map(month => (
+              <option key={month} value={month}>{month}</option>
+            ))}
+          </select>
         </CardHeader>
         <CardContent className="relative">
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <AreaChart data={filteredSalesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="salesGradient" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#3268BB" stopOpacity={0.2}/>
@@ -147,7 +172,6 @@ export function Charts({ data }: { data: ChartData[] }) {
           </div>
         </CardContent>
       </Card>
-      {/* } */}
     </div>
   );
 }

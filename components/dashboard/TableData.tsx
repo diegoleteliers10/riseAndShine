@@ -20,7 +20,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import Link from "next/link"
-import { Suspense } from 'react'
 
 
 import {
@@ -36,8 +35,6 @@ import { Pencil, AlertCircle, CheckCircle, ChevronLeft, ChevronRight, Search } f
 import { useState } from "react";
 import { toast } from "sonner"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-
-// import { Skeleton } from "@/components/ui/skeleton"
 
 const statusStyles = {
   pendiente: 'bg-cloud-light/20 text-cloud-dark border-cloud-light/30',
@@ -133,7 +130,7 @@ export function TableData({ orders }: { orders: Order[] }) {
     }
 
     try {
-      const response = await fetch(`https://rsservices.vercel.app/api/orders?id=${orderId}&newStatus=${status}`, {
+      const response = await fetch(`https://riseandshine.cl/api/orders?id=${orderId}&newStatus=${status}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -162,18 +159,8 @@ export function TableData({ orders }: { orders: Order[] }) {
     }
   };
 
-  // if(loading){
-  //   return (
-  //     <div className="flex flex-col space-y-2">
-  //       <Skeleton className="w-auto h-[70px]" />
-  //       <Skeleton className="w-auto h-[70px]" />
-  //       <Skeleton className="w-auto h-[70px]" />
-  //     </div>
-  //   )
-  // }
-
   return (
-    <div className="flex flex-col h-[580px]">
+    <div className="flex flex-col h-[580px] md:h-[595px] lg:h-[580px]">
       <div className="relative overflow-hidden rounded-xl border border-cloud-light/20 bg-white/50 shadow-sm transition-all duration-300 hover:shadow-lg flex-grow">
         <Table>
           <TableHeader>
@@ -188,7 +175,6 @@ export function TableData({ orders }: { orders: Order[] }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <Suspense>
               {currentOrders.map((order) => (
                 <TableRow key={order.id} className="border-cloud-light/20 hover:bg-cloud-light/5">
                   <TableCell className="font-medium text-cloud-dark">{order.id}</TableCell>
@@ -267,7 +253,6 @@ export function TableData({ orders }: { orders: Order[] }) {
                   </TableCell>
                 </TableRow>
               ))}
-            </Suspense>
           </TableBody>
         </Table>
       </div>
@@ -275,18 +260,23 @@ export function TableData({ orders }: { orders: Order[] }) {
       {/* Pagination Controls */}
       <div className="flex items-center justify-between px-4 py-4 border-t border-cloud-light/20 relative top-[-73px]">
         <div className="flex items-center gap-4">
-          <span className="text-sm text-cloud-dark">
-            Página {currentPage} de {totalPages} <p className="inline-block text-[12px] text-cloud-dark/50 ml-2">{currentOrders.length} resultados encontrados</p>
+          <span className="text-sm text-cloud-dark md:flex md:items-baseline hidden">
+            Página {currentPage} de {totalPages} <p className="inline-block text-[12px] text-cloud-dark/50 lg:ml-2">{currentOrders.length} resultados encontrados</p>
+          </span>
+          
+          {/* mobile */}
+          <span className="text-sm text-cloud-dark flex md:hidden">
+            {currentPage}/{totalPages}
           </span>
         </div>
         
-        <div className="relative">
+        <div className="relative md:right-6">
           <input
             type="text"
             placeholder="Buscar por cliente o servicio..."
             defaultValue={searchParams.get('search') || ''}
             onChange={(e) => handleSearch(e.target.value)}
-            className="w-[500px] px-4 py-2.5 pl-10 text-sm border-2 rounded-lg border-cloud-light/30 focus:outline-none focus:border-cloud-dark/40 transition-colors duration-200"
+            className="w-[150px] md:w-[400px] lg:w-[500px] px-4 py-2.5 pl-10 text-sm border-2 rounded-lg border-cloud-light/30 focus:outline-none focus:border-cloud-dark/40 transition-colors duration-200"
           />
           <Search className="absolute left-3 top-3 h-5 w-5 text-cloud-dark/40" />
         </div>
