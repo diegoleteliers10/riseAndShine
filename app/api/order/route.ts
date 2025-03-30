@@ -77,7 +77,7 @@ export async function POST(request: Request) {
           start: eventDateObj,
           end: endDateObj,
           summary: 'Servicio de Limpieza',
-          description: 'El servicio de limpieza ha sido agendado para el día ' + body.fecha_servicio,
+          description: 'El servicio de limpieza ha sido agendado para el día ' + eventDateObj,
           organizer: {
             name: 'Manuel José Zulueta',
             email: 'Mzuluetacomparini@gmail.com'
@@ -102,7 +102,7 @@ export async function POST(request: Request) {
         serviceType: body.servicio,
         serviceDate: new Date(body.fecha_servicio).toLocaleDateString('es-ES'),
         totalAmount: body.monto,
-        serviceTime: new Date(body.fecha_servicio).toLocaleTimeString('es-CL', {
+        serviceTime: new Date(body.fecha_servicio).toLocaleTimeString('es-ES', {
           hour: '2-digit',
           minute: '2-digit',
           hour12: false,

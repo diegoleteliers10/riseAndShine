@@ -85,7 +85,7 @@ export function Charts({ data }: { data: ChartData[] }) {
           <select
             value={customerFilter}
             onChange={(e) => setCustomerFilter(e.target.value)}
-            className="border rounded p-2"
+            className="border border-cloud-light/30 bg-white text-cloud-dark/60 rounded-lg p-2 shadow-sm focus:outline-none transition duration-200"
           >
             <option value="">Todos los meses</option>
             {Array.from(new Set(data.map(item => item.month))).map(month => (
@@ -132,7 +132,7 @@ export function Charts({ data }: { data: ChartData[] }) {
           <select
             value={salesFilter}
             onChange={(e) => setSalesFilter(e.target.value)}
-            className="border rounded p-2"
+            className="border border-cloud-light/30 bg-white text-cloud-dark/60 rounded-lg p-2 shadow-sm focus:outline-none transition duration-200"
           >
             <option value="">Todos los meses</option>
             {Array.from(new Set(data.map(item => item.month))).map(month => (
