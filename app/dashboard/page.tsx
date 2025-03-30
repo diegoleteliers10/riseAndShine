@@ -111,7 +111,7 @@ export default async function Dashboard() {
                     Estas son las estadisticas de tu servicio
                   </p>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex md:flex-row flex-col items-center gap-4">
                   <DateDisplay />
                   <LogoutButton />
                 </div>

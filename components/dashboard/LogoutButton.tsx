@@ -45,10 +45,10 @@ export function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+      className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 md:order-2 order-1"
     >
       <LogOut className="h-4 w-4" />
-      Cerrar Sesión
+      <p className='md:flex hidden'>Cerrar Sesión</p>
     </button>
   )
 }

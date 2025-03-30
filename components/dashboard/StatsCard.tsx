@@ -21,11 +21,11 @@ export function StatsCard({ title, value, icon, cambioPorcentual }: StatsCardPro
     <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
       <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent backdrop-blur-sm" />
       <CardContent className="relative p-6">
-        <div className="flex items-center space-x-4">
-          <div className="p-3 rounded-xl bg-gradient-to-br from-cloud-light/20 to-cloud-light/10 shadow-inner">
+        <div className="flex flex-row md:flex-col lg:flex-row items-center space-x-4">
+          <div className="p-3 rounded-xl bg-gradient-to-br from-cloud-light/20 to-cloud-light/10 shadow-inner mr-4 md:mr-0 lg:mr-4">
             {icon}
           </div>
-          <div>
+          <div className='flex flex-col items-start md:items-center lg:items-start space-y-0 md:space-y-2 lg:space-y-0 mt-0 md:mt-2 lg:mt-0'>
             <p className="text-sm font-medium text-cloud-dark/60">{title}</p>
             <p className="text-2xl font-semibold text-cloud-dark">{value}</p>
             {cambioPorcentual !== undefined && (
