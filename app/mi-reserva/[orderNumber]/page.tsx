@@ -54,7 +54,7 @@ const OrderDetailsPage = async ({ params }: { params: Promise<{ orderNumber: str
   };
 
   try {
-    const response = await fetch(`http://localhost:3000/api/order?id=${orderNumber}`);
+    const response = await fetch(`http://www.riseandshine.cl/api/order?id=${orderNumber}`);
     if (!response.ok) {
       throw new Error('Error al obtener los detalles del pedido');
     }
