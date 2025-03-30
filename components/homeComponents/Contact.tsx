@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input"
 
 function ContactContent() {
   const [time_servicio, setTime] = useState('12:00');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loading,setLoading] = useState(false);
   const [formData, setFormData] = useState({
     // Datos del cliente
     nombre: '',
@@ -31,6 +33,20 @@ function ContactContent() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+
+    toast.custom(() => (
+      <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-lg border border-cloud-light/20">
+        <span className="loading loading-spinner loading-md"></span>
+        <div>
+          <p className="font-medium text-cloud-dark">Procesando pedido</p>
+          <p className="text-sm text-cloud-dark/70">Tu pedido esta siendo procesado y agendado.</p>
+        </div>
+      </div>
+    ), {
+      duration: 3000,
+      position: 'top-center'
+    });
 
     // Extraer el precio del string del servicio seleccionado
     const precioStr = formData.servicio.split(' ')[1];
@@ -72,6 +88,8 @@ function ContactContent() {
         fecha_servicio: '',
       });
 
+      setLoading(false);
+
       toast.custom(() => (
         <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-lg border border-cloud-light/20">
           <CheckCircle className="w-5 h-5 text-cloud-dark" />
@@ -86,6 +104,7 @@ function ContactContent() {
       });
     } catch (error) {
       console.error('Error:', error);
+      setLoading(false)
       toast.custom(() => (
         <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-lg">
           <AlertCircle className="w-5 h-5 text-red-600" />
@@ -283,7 +302,9 @@ function ContactContent() {
               </p>
               <button
                 type="submit"
-                className="w-full bg-cloud text-white py-2 rounded-full hover:bg-cloud-dark transition duration-300"
+                className="w-full h-[30px] bg-cloud text-white py-2 rounded-full hover:bg-cloud-dark transition duration-300 flex items-center justify-center"
+                aria-label="Agendar Servicio"
+                onClick={()=> setLoading(true)}
               >
                 Agendar Servicio
               </button>

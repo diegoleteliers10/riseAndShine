@@ -1,6 +1,9 @@
 @import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
+@plugin "daisyui" {
+  themes: false;
+}
 @custom-variant dark (&:is(.dark *));
 
 @theme {
