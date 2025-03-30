@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   description: 'Detalles de la reserva del cliente',
 };
 
-const OrderDetailsPage = async ({ params }: { params: { orderNumber: string } }) => {
+const OrderDetailsPage = async ({ params }: { params: Promise<{ orderNumber: string }> }) => {
   // Esperar a que params se resuelva
   const { orderNumber } = await params;
 
