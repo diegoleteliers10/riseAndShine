@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { CalendarDays, MapPin, Package, User, Mail, CreditCard } from 'lucide-react';
 import { format } from 'date-fns-tz';
+import { Map } from '@/components/homeComponents/Map';
 
 interface OrderDetails {
   id: number;
@@ -54,7 +55,7 @@ const OrderDetailsPage = async ({ params }: { params: Promise<{ orderNumber: str
   };
 
   try {
-    const response = await fetch(`http://www.riseandshine.cl/api/order?id=${orderNumber}`);
+    const response = await fetch(`https://riseandshine.cl/api/order?id=${orderNumber}`);
     if (!response.ok) {
       throw new Error('Error al obtener los detalles del pedido');
     }
@@ -158,9 +159,12 @@ const OrderDetailsPage = async ({ params }: { params: Promise<{ orderNumber: str
           </Card>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8 mb-4">
           <h1 className="text-2xl font-bold text-[#49597c]">Detalles de la Dirección</h1>
           <p className="text-[#49597c]/70">El servicio se realizara en la siguiente dirección <b>{orderDetails.direccion_servicio?.toUpperCase()}</b></p>
+        </div>
+        <div>
+          <Map address={orderDetails.direccion_servicio}/>
         </div>
       </div>
     </div>
