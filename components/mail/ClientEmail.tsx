@@ -118,7 +118,7 @@ export const ClientEmail: React.FC<EmailTemplateProps> = ({
                 • Informarnos sobre cualquier área que requiera atención especial
               </Text>
               <Text className="text-[15px] text-gray-700 my-[4px]">
-                • Llegar 5-10 minutos antes de su cita programada
+                • Estar preparado para nuestra llegada 5-10 minutos antes de su cita programada
               </Text>
               <Text className="text-[15px] text-gray-700 my-[4px]">
                 • Para cancelaciones, por favor avise con al menos 24 horas de anticipación
