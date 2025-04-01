@@ -3,6 +3,9 @@ import { createClient } from '@/utils/supabase/client'
 import ical from 'ical-generator';
 import { Resend } from 'resend';
 import ClientEmail from '@/components/mail/ClientEmail';
+import CompanyMail from '@/components/mail/EnterpriseMail';
+import { format } from 'date-fns-tz';
+import { addHours } from 'date-fns';
 
 // GET /api/order
 export async function GET(request: Request) {
@@ -107,47 +110,51 @@ export async function POST(request: Request) {
     }
 
     //3. Creamos correos diferentes para enviarle tanto al cliente como a la empresa sobre el pedido
-    const eventDateObj = new Date(body.fecha_servicio);
-    const endDateObj = new Date(body.fecha_servicio);
-    endDateObj.setHours(endDateObj.getHours() + 2);
+    const eventDateObj = new Date(body.fecha_servicio); // Crear el objeto Date solo para manipulación
+    const endDateObj = addHours(eventDateObj, 2); // Agregar 2 horas a la fecha de servicio
 
+    // Extraer la hora en formato HH:mm
+    const hours = eventDateObj.getUTCHours().toString().padStart(2, '0');
+    const minutes = eventDateObj.getUTCMinutes().toString().padStart(2, '0');
+    //extraer las horas finales formato HH:mm
+    const endHours = endDateObj.getUTCHours().toString().padStart(2, '0');
+    const endMinutes = endDateObj.getUTCMinutes().toString().padStart(2, '0');
+    //extraer dia
+    const date = endDateObj.toISOString().split('T')[0];
+
+    const formattedEventDate = format(eventDateObj, 'd \'de\' MMMM \'de\' yyyy', { timeZone: 'UTC' });
+
+    // // Crear el calendario
     const calendar = ical({
       prodId: '//Rise And Shine//Rise&ShineWeb//ES',
       events: [
         {
-          start: eventDateObj,
-          end: endDateObj,
-          summary: 'Servicio de Limpieza',
-          description: 'El servicio de limpieza ha sido agendado para el día ' + eventDateObj,
+          start: `${date}T${hours}:${minutes}:00`,
+          end: `${date}T${endHours}:${endMinutes}:00`,
+          summary: `Servicio de Limpieza - ${formattedEventDate}`,
+          description: `El servicio de limpieza ha sido agendado para el día ${formattedEventDate}`,
           organizer: {
             name: 'Manuel José Zulueta',
             email: 'Mzuluetacomparini@gmail.com'
           },
-          timezone: 'America/Santiago'
         }
       ]
     });
 
-    // Generar el archivo .ics como string
-    const icsContent = calendar.toString();
     const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
-    // Enviar el correo con el archivo .ics adjunto
+    // Enviar el correo con la hora original
     const mailCliente = await resend.emails.send({
       from: `Rise & Shine <no-reply@riseandshine.cl>`,
       to: [`${body.email}`],
-      subject: `Servicio de Limpieza - ${new Date(body.fecha_servicio).toLocaleDateString('es-ES')}`,
+      subject: `Servicio de Limpieza - ${formattedEventDate}`,
       react: await ClientEmail({
         customerName: body.nombre,
         orderNumber: orderData[0].id,
         serviceType: body.servicio,
-        serviceDate: new Date(body.fecha_servicio).toLocaleDateString('es-ES'),
+        serviceDate: formattedEventDate,
         totalAmount: body.monto,
-        serviceTime: new Date(body.fecha_servicio).toLocaleTimeString('es-ES', {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false,
-        }),
+        serviceTime: `${hours}:${minutes}`, // Usa la hora original
         serviceLocation: body.direccion,
         paymentMethod: '',
         paymentStatus: ''
@@ -155,7 +162,34 @@ export async function POST(request: Request) {
       attachments: [
         {
           filename: 'event.ics',
-          content: icsContent,
+          content: calendar.toString(),
+          contentType: 'text/calendar'
+        }
+      ]
+    });
+
+
+    const mailEmpresa = await resend.emails.send({
+      from: `Rise & Shine <no-reply@riseandshine.cl>`,
+      to: [`r.shine1090@outlook.com`],
+      subject: `Servicio de Limpieza - ${formattedEventDate}`,
+      react: await CompanyMail({
+        customerName: body.nombre,
+        customerEmail: body.email,
+        customerPhone: body.telefono,
+        orderNumber: orderData[0].id,
+        serviceType: body.servicio,
+        serviceDate: formattedEventDate,
+        totalAmount: body.monto,
+        serviceTime: `${hours}:${minutes}`,
+        serviceLocation: body.direccion,
+        paymentMethod: '',
+        paymentStatus: ''
+      }),
+      attachments: [
+        {
+          filename: 'event.ics',
+          content: calendar.toString(),
           contentType: 'text/calendar'
         }
       ]
@@ -164,7 +198,8 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { 
         message: 'Cliente y orden creados exitosamente, y correos enviado con exito',
-        mailEmpresa: mailCliente,
+        mailCliente: mailCliente,
+        mailEmpresa: mailEmpresa,
         client: clientData,
         order: orderData 
       },
