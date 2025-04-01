@@ -45,7 +45,7 @@ export default function Footer() {
                   >Términos de Servicio</a>
               </li>
               <li>
-                <a href="#sobre-nosotros" className="text-cloud-light hover:text-white"
+                <a href="/sobre-nosotros" className="text-cloud-light hover:text-white"
                   >Sobre Nosotros</a>
               </li>
             </ul>
