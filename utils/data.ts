@@ -24,20 +24,20 @@ export const prices = [
     name: "Lavado Exterior",
     price: "$10.000",
     features: [
-      "Lavado de carrocería",
+      "Lavado con hidrolavadora",
       "Limpieza de llantas",
-      "Limpieza de vidrios",
-      "Secado a mano",
+      "Limpieza de vidrios exteriores",
+      "Hidratado de plasticos exteriores",
     ],
   },
   {
     name: "Lavado Interior",
     price: "$12.000",
     features: [
-      "Aspirado completo",
+      "Aspirado completo y profundo",
       "Limpieza de tapicería",
-      "Limpieza de tablero",
-      "Aromatización",
+      "Encerado de plasticos",
+      "Limpieza de vidrios interiores",
     ],
   },
   {
@@ -46,8 +46,6 @@ export const prices = [
     features: [
       "Limpieza exterior completa",
       "Limpieza interior completa",
-      "Tratamiento de tablero",
-      "Limpieza de alfombras",
     ],
   },
 ];

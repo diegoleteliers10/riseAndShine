@@ -119,7 +119,7 @@ const CompanyMail: React.FC<EmailTemplateProps> = ({
               </Section>
               
               <Text className="text-[16px] text-gray-700 mb-[16px]">
-                <strong>Importante:</strong> Recuerda llegar 5 a 10 minutos antes de la hora programada para preparar todo el equipo necesario.
+                <strong>Importante:</strong> Recuerda llegar a la dirección al menos 5 a 10 minutos antes de la hora programada para preparar todo el equipo necesario.
               </Text>
             </Section>
             
@@ -145,15 +145,11 @@ const CompanyMail: React.FC<EmailTemplateProps> = ({
               </Text>
             </Section>
             
-            <Hr className="border border-gray-200 my-[32px]" />
+            <Hr className="border border-gray-200 mt-[32px]" />
             
             {/* Contact Info */}
             <Section>
               <Text className="text-[14px] text-gray-600 text-center">
-                Si necesitas asistencia, contacta a la oficina central al <a href="tel:+56987654321" className="text-blue-600">+569 8765 4321</a>
-              </Text>
-              
-              <Text className="text-[14px] text-gray-600 text-center mt-[16px]">
                 Recuerda que la satisfacción del cliente es nuestra prioridad.
               </Text>
               
