@@ -37,8 +37,6 @@ export const Map = ({ address }: MapProps) => {
       })
       .catch(console.error);
 
-      console.log(result)
-
         const mapOptions: google.maps.MapOptions = {
           center: result as google.maps.LatLngLiteral,
           zoom: 17,

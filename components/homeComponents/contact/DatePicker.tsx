@@ -5,9 +5,8 @@ import "react-day-picker/style.css";
 
 import * as React from "react"
 import { CalendarIcon } from "lucide-react"
-import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { Suspense } from 'react';
-
+import { useQueryState, parseAsIsoDate } from 'nuqs';
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -18,25 +17,11 @@ import {
 } from "@/components/ui/popover"
 
 function DatePickerContent() {
-  const [date, setDate] = React.useState<Date>();
   const defaultClassNames = getDefaultClassNames();
-  const searchParams = useSearchParams()
-  const { replace } = useRouter();
-  const pathname = usePathname();
-  console.log(date)
+  const [date, setDate] = useQueryState('fecha_servicio', parseAsIsoDate);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
-    setDate(selectedDate);
-    
-    const params = new URLSearchParams(searchParams.toString());
-    if (selectedDate) {
-      params.set('fecha_servicio', selectedDate.toISOString().split('T')[0]);
-    } else {
-      params.delete('fecha_servicio');
-    }
-    replace(`${pathname}?${params.toString()}`, {
-      scroll: false,
-    });
+    setDate(selectedDate || null);
   };
 
   return (
@@ -57,7 +42,7 @@ function DatePickerContent() {
       <PopoverContent className="w-auto p-0" align="start">
         <DayPicker
           mode="single"
-          selected={date}
+          selected={date || undefined}
           onSelect={handleDateSelect}
           classNames={{
             today: `text-cloud font-bold`,

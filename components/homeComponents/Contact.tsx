@@ -1,12 +1,53 @@
 'use client'
 import Image from "next/image";
 import { DatePickerDemo } from "@/components/homeComponents/contact/DatePicker";
-import { useState, FormEvent, Suspense, useId } from "react";
+import { useState, FormEvent, Suspense, useId, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { AlertCircle, CheckCircle, Clock } from "lucide-react";
+import { AlertCircle, CheckCircle } from "lucide-react";
 import { combineDateTime } from "@/utils/utils";
-import { Input } from "@/components/ui/input"
+
+const timeSlots = ['08:30', '11:10', '13:50', '16:30'];
+
+interface TimeSelectorProps {
+  selectedTime: string;
+  setTime: (time: string) => void;
+  unavailableTimes: string[];
+}
+
+function TimeSelector({ selectedTime, setTime, unavailableTimes }: TimeSelectorProps) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {timeSlots.map((time) => (
+        <div
+          key={time}
+          onClick={() => !unavailableTimes.includes(time) && setTime(time)}
+          className={`cursor-pointer border rounded-lg p-1 text-center transition-colors duration-200 text-sm
+            ${selectedTime === time ? 'bg-cloud text-white' : unavailableTimes.includes(time) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-white text-cloud-dark'}`}
+          style={{ pointerEvents: unavailableTimes.includes(time) ? 'none' : 'auto' }}
+        >
+          {time}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Function to fetch today's orders
+const fetchTodaysOrders = async () => {
+  const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+  const response = await fetch(`http://localhost:3000/api/orders?date=${today}`);
+  if (!response.ok) {
+    throw new Error('Error fetching orders');
+  }
+  const orders = await response.json();
+  // Extract the time from fecha_servicio
+  const times = orders.map((order: { fecha_servicio: string }) => {
+    return order.fecha_servicio.split('T')[1].substring(0, 5); // Split by 'T' and get HH:MM
+  });
+
+  return times; // Return the array of times
+};
 
 function ContactContent() {
   const [time_servicio, setTime] = useState('12:00');
@@ -31,6 +72,21 @@ function ContactContent() {
     : '';
   const id = useId();
 
+  const [unavailableTimes, setUnavailableTimes] = useState<string[]>([]);
+
+  useEffect(() => {
+    const getUnavailableTimes = async () => {
+      try {
+        const times = await fetchTodaysOrders();
+        setUnavailableTimes(times); // Set the unavailable times
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getUnavailableTimes();
+  }, []);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -51,7 +107,6 @@ function ContactContent() {
     // Extraer el precio del string del servicio seleccionado
     const precioStr = formData.servicio.split(' ')[1];
     const precio = parseInt(precioStr);
-    console.log(precio)
 
     // Crear el objeto
     const bodyData = {
@@ -65,7 +120,7 @@ function ContactContent() {
     };
 
     try {
-      const response = await fetch('https://www.riseandshine.cl/api/order', {
+      const response = await fetch('http://localhost:3000/api/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -265,35 +320,16 @@ function ContactContent() {
               <div>
                 <div>
                   <label className="block text-cloud-dark mb-2"
-                    >Selecciona tu fecha</label
-                  >
+                    >Selecciona tu fecha
+                  </label>
                   <div className="w-full justify-center">
                     <DatePickerDemo />
                   </div>
                 </div>
                 <div className="flex gap-3 flex-col">
-                  <label htmlFor={id} className="block text-cloud-dark mb-2">Selecciona tu hora</label>
+                  <label htmlFor={id} className="block text-cloud-dark mb-1 mt-4">Selecciona tu hora</label>
                   <div className="relative max-w-[240px]">
-                    <Input
-                      id={id}
-                      name="time_servicio"
-                      type="time"
-                      step="60"
-                      value={time_servicio}
-                      onChange={(e) => {
-                        const newTime = e.target.value;
-                        console.log('Nueva hora seleccionada:', newTime);
-                        setTime(newTime);
-                      }}
-                      className="peer ps-9 [&::-webkit-calendar-picker-indicator]:hidden border rounded-lg focus:outline-none text-cloud-dark/80 focus-visible:outline-none"
-                      required
-                      min="09:00"
-                      max="20:00"
-                      aria-label="Hora del servicio"
-                    />
-                    <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
-                      <Clock size={16} strokeWidth={2} aria-hidden="true" />
-                    </div>
+                    <TimeSelector selectedTime={time_servicio} setTime={setTime} unavailableTimes={unavailableTimes} />
                   </div>
                 </div>
               </div>
