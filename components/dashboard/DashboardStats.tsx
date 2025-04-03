@@ -37,8 +37,6 @@ export function DashboardStats({ clients, orders}: { clients: Clients[]; orders:
   const nuevosClientesHoy = clients.filter((client) => client.createdat === today).length;
   const totalServiciosPendientes = orders.filter((order) => order.estado === 'pendiente').length;
 
-  console.log(variacionServicios)
-
 
   return (
     <div className="mt-6 grid gap-6 md:grid-cols-4">

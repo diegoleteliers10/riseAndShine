@@ -6,19 +6,31 @@ export async function GET(request : Request) {
   const supabase = createClient()
 
   const token = request.headers.get('Authorization')?.split(' ')[1] // Obtener el token del encabezado
+  const url = new URL(request.url)
+  const dateParam = url.searchParams.get('date') // Get the date parameter from the query string
 
-  if (!token) {
+  if (!token && !dateParam) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    const { data, error } = await supabase
-      .from('pedidos')
-      .select(`
+    let query = supabase.from('pedidos').select(`
+      *,
+      cliente:cliente_id (nombre, email, telefono)
+    `).order('id', { ascending: true })
+
+    // If a date is provided, filter the orders by that date
+    if (dateParam) {
+      query = supabase.from('pedidos').select(`
         *,
         cliente:cliente_id (nombre, email, telefono)
       `)
-      .order('id', { ascending: true })
+      .gte('fecha_pedido', `${dateParam}T00:00:00.000Z`) // Inicio del día
+      .lt('fecha_pedido', `${dateParam}T23:59:59.999Z`) // Fin del día
+      .order('id', { ascending: true});
+    }
+
+    const { data, error } = await query
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })

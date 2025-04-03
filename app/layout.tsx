@@ -3,6 +3,7 @@ import "./globals.css";
 import Aos from "@/components/Aos";
 import 'aos/dist/aos.css';
 import { Analytics } from "@vercel/analytics/react"
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -125,7 +126,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased overflow-x-hidden`}
         >
         <Aos/>
-        {children}
+        <NuqsAdapter>
+          {children}
+        </NuqsAdapter>
         <Analytics />
         <Toaster />
       </body>

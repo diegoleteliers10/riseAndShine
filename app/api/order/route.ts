@@ -35,8 +35,6 @@ export async function GET(request: Request) {
       throw error;
     }
 
-    console.log(data)
-
     return NextResponse.json(data,
       { status: 200 }
     )
@@ -56,11 +54,11 @@ export async function POST(request: Request) {
     const body = await request.json()
     const supabase = createClient()
 
-    console.log('Creando cliente con datos:', {
-      nombre: body.nombre,
-      email: body.email,
-      telefono: body.telefono
-    })
+    // console.log('Creando cliente con datos:', {
+    //   nombre: body.nombre,
+    //   email: body.email,
+    //   telefono: body.telefono
+    // })
 
     // 1. Primero creamos el cliente
     const { data: clientData, error: clientError } = await supabase
@@ -81,13 +79,13 @@ export async function POST(request: Request) {
       )
     }
 
-    console.log('Cliente creado:', clientData)
-    console.log('Creando orden con datos:', {
-      cliente_id: clientData.id,
-      servicio: body.servicio,
-      monto: body.monto,
-      fecha_servicio: body.fecha_servicio,
-    })
+    // console.log('Cliente creado:', clientData)
+    // console.log('Creando orden con datos:', {
+    //   cliente_id: clientData.id,
+    //   servicio: body.servicio,
+    //   monto: body.monto,
+    //   fecha_servicio: body.fecha_servicio,
+    // })
 
     // 2. Luego creamos el pedido usando el ID del cliente creado
     const { data: orderData, error: orderError } = await supabase
