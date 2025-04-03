@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Electron application for Rise and Shine",
   "main": "main.js",
-  "homepage": "https://riseandshine.cl",
+  "homepage": "https://www.riseandshine.cl",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder build"

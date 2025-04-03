@@ -130,7 +130,7 @@ export function TableData({ orders }: { orders: Order[] }) {
     }
 
     try {
-      const response = await fetch(`https://riseandshine.cl/api/orders?id=${orderId}&newStatus=${status}`, {
+      const response = await fetch(`https://www.riseandshine.cl/api/orders?id=${orderId}&newStatus=${status}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
