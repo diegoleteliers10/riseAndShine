@@ -6,6 +6,9 @@ import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { AlertCircle, CheckCircle } from "lucide-react";
 import { combineDateTime } from "@/utils/utils";
+import { Skeleton } from "../ui/skeleton";
+
+
 
 const timeSlots = ['08:30', '11:10', '13:50', '16:30'];
 
@@ -13,13 +16,18 @@ interface TimeSelectorProps {
   selectedTime: string;
   setTime: (time: string) => void;
   unavailableTimes: string[];
+  loading: boolean
 }
 
-function TimeSelector({ selectedTime, setTime, unavailableTimes }: TimeSelectorProps) {
+function TimeSelector({ selectedTime, setTime, unavailableTimes, loading }: TimeSelectorProps) {
   return (
     <div className="flex flex-wrap gap-2">
       {timeSlots.map((time) => (
-        <div
+        //skeleton if loading true
+        loading ? (
+          <Skeleton key={time} className="w-[43px] h-[30px] bg-gray-200 animate-pulse rounded-lg"/>
+        ) :
+        (<div
           key={time}
           onClick={() => !unavailableTimes.includes(time) && setTime(time)}
           className={`cursor-pointer border rounded-lg p-1 text-center transition-colors duration-200 text-sm
@@ -27,20 +35,20 @@ function TimeSelector({ selectedTime, setTime, unavailableTimes }: TimeSelectorP
           style={{ pointerEvents: unavailableTimes.includes(time) ? 'none' : 'auto' }}
         >
           {time}
-        </div>
+        </div>)
       ))}
     </div>
   );
 }
 
 // Function to fetch today's orders
-const fetchTodaysOrders = async () => {
-  const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-  const response = await fetch(`https://www.riseandshine.cl/api/orders?date=${today}`);
+const fetchTodaysOrders = async (day:string) => {
+  const response = await fetch(`https://www.riseandshine.cl/api/orders?date=${day}`);
   if (!response.ok) {
     throw new Error('Error fetching orders');
   }
   const orders = await response.json();
+  console.log(orders)
   // Extract the time from fecha_servicio
   const times = orders.map((order: { fecha_servicio: string }) => {
     return order.fecha_servicio.split('T')[1].substring(0, 5); // Split by 'T' and get HH:MM
@@ -51,7 +59,6 @@ const fetchTodaysOrders = async () => {
 
 function ContactContent() {
   const [time_servicio, setTime] = useState('12:00');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading,setLoading] = useState(false);
   const [formData, setFormData] = useState({
     // Datos del cliente
@@ -76,16 +83,19 @@ function ContactContent() {
 
   useEffect(() => {
     const getUnavailableTimes = async () => {
+      setLoading(true);
       try {
-        const times = await fetchTodaysOrders();
+        const times = await fetchTodaysOrders(dateService);
         setUnavailableTimes(times); // Set the unavailable times
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     getUnavailableTimes();
-  }, []);
+  }, [dateService]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -329,7 +339,7 @@ function ContactContent() {
                 <div className="flex gap-3 flex-col">
                   <label htmlFor={id} className="block text-cloud-dark mb-1 mt-4">Selecciona tu hora</label>
                   <div className="relative max-w-[240px]">
-                    <TimeSelector selectedTime={time_servicio} setTime={setTime} unavailableTimes={unavailableTimes} />
+                    <TimeSelector selectedTime={time_servicio} setTime={setTime} unavailableTimes={unavailableTimes} loading={loading} />
                   </div>
                 </div>
               </div>
