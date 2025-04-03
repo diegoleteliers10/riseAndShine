@@ -25,8 +25,8 @@ export async function GET(request : Request) {
         *,
         cliente:cliente_id (nombre, email, telefono)
       `)
-      .gte('fecha_pedido', `${dateParam}T00:00:00.000Z`) // Inicio del día
-      .lt('fecha_pedido', `${dateParam}T23:59:59.999Z`) // Fin del día
+      .gte('fecha_servicio', `${dateParam}T00:00:00.000Z`) // Inicio del día
+      .lt('fecha_servicio', `${dateParam}T23:59:59.999Z`) // Fin del día
       .order('id', { ascending: true});
     }
 
