@@ -81,11 +81,14 @@ export function TableData({ orders }: { orders: Order[] }) {
       )
     : orders;
 
+  // Sort orders in descending order by ID
+  const sortedOrders = filteredOrders.sort((a, b) => b.id - a.id);
+
   // Calcular paginación con los resultados (filtrados o todos)
-  const totalPages = Math.ceil(filteredOrders.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(sortedOrders.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentOrders = filteredOrders.slice(startIndex, endIndex);
+  const currentOrders = sortedOrders.slice(startIndex, endIndex);
 
   // Handle page changes
   const createPageUrl = (newPage: number) => {
