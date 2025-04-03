@@ -36,7 +36,7 @@ function TimeSelector({ selectedTime, setTime, unavailableTimes }: TimeSelectorP
 // Function to fetch today's orders
 const fetchTodaysOrders = async () => {
   const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-  const response = await fetch(`http://localhost:3000/api/orders?date=${today}`);
+  const response = await fetch(`https://riseandshine.cl/api/orders?date=${today}`);
   if (!response.ok) {
     throw new Error('Error fetching orders');
   }
@@ -120,7 +120,7 @@ function ContactContent() {
     };
 
     try {
-      const response = await fetch('http://localhost:3000/api/order', {
+      const response = await fetch('https://riseandshine.cl/api/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
