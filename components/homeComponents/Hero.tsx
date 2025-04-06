@@ -39,7 +39,7 @@ export default function Hero() {
           alt="Rise & Shine"
           width={650}
           height={650}
-          className="object-cover md:ml-auto md:relative md:max-w-[450px] md:max-h-[400px] lg:left-10 2xl:max-w-[800px] 2xl:max-h-[700px]"
+          className="object-cover md:ml-auto md:relative lg:left-10 lg:w-[600px] lg:h-[450px] 2xl:w-[850px] 2xl:h-[700px]"
           loading="lazy"
           data-aos="fade-left"
         />
