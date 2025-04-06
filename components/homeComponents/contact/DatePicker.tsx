@@ -44,13 +44,12 @@ function DatePickerContent() {
   const handleDateSelect = (selectedDate: Date | undefined) => {
     setDate(selectedDate || null);
   };
-
-  // Función para deshabilitar sábados, domingos y feriados
-  const disableWeekendsAndHolidays = (date) => {
+  // Function to disable weekends and holidays
+  const disableWeekendsAndHolidays = (date: Date) => {
     const day = date.getDay();
-    const isWeekend = day === 0 || day === 6; // 0 = Domingo, 6 = Sábado
+    const isWeekend = day === 0 || day === 6; // 0 = Sunday, 6 = Saturday
 
-    // Compara la fecha con los feriados (ignorando la hora)
+    // Compares the date with holidays (ignoring the time)
     const isHoliday = feriadosChile2025.some(
       (holiday) =>
         holiday.getDate() === date.getDate() &&
