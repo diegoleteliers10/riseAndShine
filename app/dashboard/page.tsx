@@ -1,7 +1,7 @@
 import DashboardLayout from "@/components/layout/DashboardLayout"
 import { DashboardStats } from "@/components/dashboard/DashboardStats";
 import { Charts } from "@/components/dashboard/Charts";
-import { data } from '@/utils/data'
+// import { data } from '@/utils/data'
 import { TableData } from "@/components/dashboard/TableData";
 import { DateDisplay } from '@/components/DateDisplay';
 import { LogoutButton } from "@/components/dashboard/LogoutButton";
@@ -99,7 +99,7 @@ export default async function Dashboard() {
           className="min-h-screen bg-linear-to-br from-cloud-light/5 to-cloud-light/10"
         >
           <main className="flex-1 overflow-y-auto">
-            <div className="container mx-auto p-8 space-y-8">
+            <div className="container mx-auto py-8 px-4 space-y-8">
               <header
                 className="flex justify-between items-center pb-6 border-b border-cloud-light/20"
               >
@@ -120,7 +120,7 @@ export default async function Dashboard() {
               <DashboardStats orders={orders} clients={clients} />
 
               <section className="pt-4">
-                <Charts data={data} />
+                <Charts orders={orders} clients={clients} />
               </section>
 
               <section className="pt-4">
