@@ -32,10 +32,10 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-semibold mb-4">Enlaces Rápidos</h4>
             <ul className="space-y-2">
-              <li>
+              {/* <li>
                 <a href="/faqs" className="text-cloud-light hover:text-white"
                   >FAQs</a>
-              </li>
+              </li> */}
               <li>
                 <a href="/politicas" className="text-cloud-light hover:text-white"
                   >Política de Privacidad</a>
@@ -58,7 +58,7 @@ export default function Footer() {
               <li>Domingo: 10:00 - 15:00</li>
             </ul>
           </div> */}
-          <div className="ml-auto">
+          <div className="md:ml-auto ml-0">
             <h4 className="text-lg font-semibold mb-4">Síguenos</h4>
             <div className="flex space-x-4">
               {/* <!-- <a href="#" className="text-cloud-light hover:text-white">
