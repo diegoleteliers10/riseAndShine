@@ -65,9 +65,9 @@ export function variacionPorcentualMesIngresos(orders: Orders[]) {
     // Calcular variación porcentual
     let variacionPorcentual = null;
     
-    if (totalMesAnterior > 0) { //si el mes anterior era mayor entonces el actual bajo su ingreso
-      variacionPorcentual = (((totalMesActual / totalMesAnterior) - 1) * 100)*-1;
-    } else if (totalMesAnterior < 0) { //si el mes anterior era menor entonces el actual aumento su ingreso
+    if (totalMesAnterior > totalMesActual) { //si el mes anterior era mayor entonces el actual bajo su ingreso
+      variacionPorcentual = ((1-(totalMesActual / totalMesAnterior)) * 100) * -1;
+    } else if (totalMesAnterior < totalMesActual) { //si el mes anterior era menor entonces el actual aumento su ingreso
       variacionPorcentual = ((totalMesActual / totalMesAnterior) - 1) * 100;
     } else {
       variacionPorcentual = 0;
@@ -122,16 +122,17 @@ export function variacionPorcentualMesClientes(clients: Clients[]) {
         const totalMesActual = clientesMesActual.reduce((sum, _cliente) => sum + 1, 0);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const totalMesAnterior = clientesMesAnterior.reduce((sum, _cliente) => sum + 1, 0);
-
         // Calcular variación porcentual
         let variacionPorcentual = null;
         
-        if (totalMesAnterior > 0) { //si el mes anterior era mayor entonces el actual bajo su ingreso
-            variacionPorcentual = (((totalMesActual / totalMesAnterior) - 1) * 100)*-1;
-        } else if (totalMesAnterior < 0) { //si el mes anterior era menor entonces el actual aumento su ingreso
-            variacionPorcentual = ((totalMesActual / totalMesAnterior) - 1) * 100;
+        if (totalMesAnterior > totalMesActual) { //si el mes anterior era mayor entonces el actual bajo sus clientes
+          variacionPorcentual = ((1-(totalMesActual / totalMesAnterior)) * 100) * -1;
+          console.log('el actual bajo sus clientes')
+        } else if (totalMesAnterior < totalMesActual) { //si el mes anterior era menor entonces el actual aumento sus clientes
+          variacionPorcentual = ((totalMesActual / totalMesAnterior) - 1) * 100;
+          console.log('el actual aumento sus clientes')
         } else {
-            variacionPorcentual = 0;
+          variacionPorcentual = 0;
         }
 
         return {
@@ -184,17 +185,21 @@ export function variacionPorcentualMesServicios(orders: Orders[]) {
     const totalMesActual = pedidosMesActual.reduce((sum, _pedido) => sum + 1, 0);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const totalMesAnterior = pedidosMesAnterior.reduce((sum, _pedido) => sum + 1, 0);
-    
+    console.log(`mes actual: ${totalMesActual}, mes anterior: ${totalMesAnterior}`)
+
     // Calcular variación porcentual
     let variacionPorcentual = null;
     
-    if (totalMesAnterior > 0) { //si el mes anterior era mayor entonces el actual bajo su ingreso
-        variacionPorcentual = (((totalMesActual / totalMesAnterior) - 1) * 100)*-1;
-    } else if (totalMesAnterior < 0) { //si el mes anterior era menor entonces el actual aumento su ingreso
-        variacionPorcentual = ((totalMesActual / totalMesAnterior) - 1) * 100;
+    if (totalMesAnterior > totalMesActual) { //si el mes anterior era mayor entonces el actual bajo su ingreso
+      variacionPorcentual = ((1-(totalMesActual / totalMesAnterior)) * 100) * -1;
+      console.log('el actual bajo sus servicios')
+    } else if (totalMesAnterior < totalMesActual) { //si el mes anterior era menor entonces el actual aumento su ingreso
+      variacionPorcentual = ((totalMesActual / totalMesAnterior) - 1) * 100;
+      console.log('el actual aumento sus servicios')
     } else {
-        variacionPorcentual = 0;
+      variacionPorcentual = 0;
     }
+    console.log(variacionPorcentual)
 
     return {
       mesActual,
@@ -207,4 +212,66 @@ export function variacionPorcentualMesServicios(orders: Orders[]) {
     console.error('Error al calcular la variación porcentual:', error);
     throw error;
   }
+}
+
+export const summarizeClientsByMonth = (clients: Clients[]) => {
+  const clientCounts: { [key: string]: number } = {};
+
+  clients.forEach(client => {
+    const date = new Date(client.createdat);
+    const year = date.getFullYear();
+    const month = date.toLocaleString('default', { month: 'long' }); // Get the month name
+
+    const key = `${year}-${month}`; // Create a unique key for each month of each year
+
+    // Increment the count for this month
+    if (clientCounts[key]) {
+      clientCounts[key]++;
+    } else {
+      clientCounts[key] = 1;
+    }
+  });
+
+  // Convert the counts into the desired format
+  const result = Object.entries(clientCounts).map(([key, count]) => {
+    const [year, month] = key.split('-');
+    return {
+      ano: parseInt(year),
+      mes: month,
+      cantidadClientes: count,
+    };
+  });
+
+  return result;
+};
+
+export const summarizedOrdersByMonth = (orders: Orders[]) => {
+  const filteredOrders = orders.filter(order => order.estado === 'realizado');
+  const incomeCounts: { [key: string]: number } = {};
+
+  filteredOrders.forEach(order => {
+    const date = new Date(order.fecha_servicio);
+    const year = date.getFullYear();
+    const month = date.toLocaleString('default', { month: 'long' }); // Get the month name
+
+    const key = `${year}-${month}`; // Create a unique key for each month of each year
+    // Increment the count for this month
+    if (incomeCounts[key]) {
+      incomeCounts[key] += order.monto;
+    } else {
+      incomeCounts[key] = order.monto;
+    }
+  });  
+
+  const result = Object.entries(incomeCounts).map(([key, count]) => {
+    const [year, month] = key.split('-');
+    return {
+      ano: parseInt(year),
+      mes: month,
+      cantidadIngreso: count,
+    };
+  });
+
+  return result;
+
 }

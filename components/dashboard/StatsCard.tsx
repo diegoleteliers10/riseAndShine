@@ -37,12 +37,12 @@ export function StatsCard({ title, value, icon, cambioPorcentual }: StatsCardPro
                       variant="outline"
                     >
                     <span className={`text-sm ${cambioPorcentual > 0 ? 'text-green-500' : cambioPorcentual < 0 ? 'text-red-500' : 'text-gray-500'}`}>
-                      {cambioPorcentual >= 0 ? `+${cambioPorcentual.toFixed(2)}%` : `${cambioPorcentual.toFixed(2)}%`}
+                      {cambioPorcentual >= 0 ? `+${(cambioPorcentual/100).toFixed(2)}%` : `${(cambioPorcentual/100).toFixed(2)}%`}
                     </span>
                     </Badge>
                   </TooltipTrigger>
                   <TooltipContent className='text-[10px] w-30'>
-                    <p>{cambioPorcentual >= 0 ? `haz tenido un aumento de +${cambioPorcentual.toFixed(2)}% con respecto al mes anterior` : `haz tenido una disminución de -${cambioPorcentual.toFixed(2)}%`}</p>
+                    <p>{cambioPorcentual >= 0 ? `haz tenido un aumento de +${(cambioPorcentual/100).toFixed(2)}% con respecto al mes anterior` : `haz tenido una disminución de ${(cambioPorcentual/100).toFixed(2)}% con respecto al mes anterior`}</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
