@@ -14,13 +14,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { summarizeClientsByMonth, summarizedOrdersByMonth } from '@/utils/utils';
 
-
-// interface ChartData {
-//   month: string;
-//   customers: number;
-//   sales: number;
-// }
-
 interface TooltipProps {
   active?: boolean;
   payload?: Array<{
@@ -64,6 +57,41 @@ const chartConfig = {
   },
 };
 
+const MONTH_ORDER: { [key: string]: number } = {
+  'enero': 1,
+  'febrero': 2,
+  'marzo': 3,
+  'abril': 4,
+  'mayo': 5,
+  'junio': 6,
+  'julio': 7,
+  'agosto': 8,
+  'septiembre': 9,
+  'octubre': 10,
+  'noviembre': 11,
+  'diciembre': 12
+};
+
+// Función para obtener el valor numérico del mes (con seguridad de tipos)
+const getMonthOrder = (month: string): number => {
+  const monthLower = month.toLowerCase();
+  return MONTH_ORDER[monthLower] || 0; // Retorna 0 si el mes no está en el mapa
+};
+
+// Definir la interfaz SortType para los datos de los gráficos
+interface SortType {
+  month: string;
+  customers?: number;
+  income?: number;
+}
+
+// Función para ordenar los meses cronológicamente específica para SortType
+const sortByMonth = (data: SortType[]): SortType[] => {
+  return [...data].sort((a, b) => {
+    return getMonthOrder(a.month) - getMonthOrder(b.month);
+  });
+};
+
 interface Clients {
   email: string;
   nombre: string;
@@ -75,8 +103,8 @@ interface Orders {
   id: number;
   cliente_id: number;
   monto: number;
-  fecha_pedido: string;  // Puedes cambiar a Date si lo manejas como objeto Date en TS
-  fecha_servicio: string; // Igual que arriba
+  fecha_pedido: string;
+  fecha_servicio: string;
   estado: 'realizado' | 'en-progreso' | 'pendiente';
   clientes: Clients;
 }
@@ -117,12 +145,24 @@ export function Charts({ clients, orders}: { clients: Clients[]; orders: Orders[
     income: order.cantidadIngreso,
   }));
 
+  // Ordenar los datos por mes cronológicamente
+  const sortedChartData = sortByMonth(chartData);
+  const sortedIncomeChartData = sortByMonth(incomeChartData);
+
   // Get unique years and months for the filters
   const uniqueClientsYears = Array.from(new Set(summarizedClients.map(client => client.ano)));
   const uniqueClientsMonths = Array.from(new Set(summarizedClients.map(client => client.mes)));
   const uniqueOrdersYears = Array.from(new Set(summarizedOrders.map(order => order.ano)));
   const uniqueOrdersMonths = Array.from(new Set(summarizedOrders.map(order => order.mes)));
 
+  // Ordenar los meses en los selectores
+  const sortedClientsMonths = [...uniqueClientsMonths].sort((a, b) => 
+    getMonthOrder(a) - getMonthOrder(b)
+  );
+  
+  const sortedOrdersMonths = [...uniqueOrdersMonths].sort((a, b) => 
+    getMonthOrder(a) - getMonthOrder(b)
+  );
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
@@ -147,8 +187,8 @@ export function Charts({ clients, orders}: { clients: Clients[]; orders: Orders[
               onChange={(e) => setMonthClientsFilter(e.target.value)}
               className="border border-cloud-light/30 bg-white text-cloud-dark/60 rounded-lg p-1 text-sm shadow-sm focus:outline-none transition duration-200"
             >
-              <option value="">Mes</option>
-              {uniqueClientsMonths.map(month => (
+              <option value="">Todos los meses</option>
+              {sortedClientsMonths.map(month => (
                 <option key={month} value={month}>{month}</option>
               ))}
             </select>
@@ -157,7 +197,7 @@ export function Charts({ clients, orders}: { clients: Clients[]; orders: Orders[
         <CardContent className="relative">
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <BarChart data={sortedChartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="customerGradient" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#8B4513" stopOpacity={0.2} />
@@ -196,8 +236,8 @@ export function Charts({ clients, orders}: { clients: Clients[]; orders: Orders[
               onChange={(e) => setMonthOrdersFilter(e.target.value)}
               className="border border-cloud-light/30 bg-white text-cloud-dark/60 rounded-lg p-1 text-sm shadow-sm focus:outline-none transition duration-200"
             >
-              <option value="">Mes</option>
-              {uniqueOrdersMonths.map(month => (
+              <option value="">Todos los meses</option>
+              {sortedOrdersMonths.map(month => (
                 <option key={month} value={month}>{month}</option>
               ))}
             </select>
@@ -206,7 +246,7 @@ export function Charts({ clients, orders}: { clients: Clients[]; orders: Orders[
         <CardContent className="relative">
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={incomeChartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <AreaChart data={sortedIncomeChartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="salesGradient" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#3268BB" stopOpacity={0.2}/>
