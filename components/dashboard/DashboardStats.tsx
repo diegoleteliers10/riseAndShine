@@ -27,14 +27,25 @@ export function DashboardStats({ clients, orders}: { clients: Clients[]; orders:
   const variacionIngresos = variacionPorcentualMesIngresos(orders);
   const variacionClientes = variacionPorcentualMesClientes(clients)
   const variacionServicios = variacionPorcentualMesServicios(orders)
-  const today =new Date().toLocaleDateString("es-ES", {weekday: "long", year: "numeric", month: "long", day: "numeric",})
+  const today =new Date()
   const totalServiciosRealizados = orders.filter((order) => order.estado === 'realizado').length;
-  const ingresosTotales = orders.reduce((total, order) => total + order.monto, 0);
+  const ingresosTotales = orders.filter((order) => order.estado === 'realizado').reduce((total, order) => total + order.monto, 0);
   const ingresosTotalesFormateados = new Intl.NumberFormat('es-CL', {
     style: 'currency',
     currency: 'CLP',
   }).format(ingresosTotales);
-  const nuevosClientesHoy = clients.filter((client) => client.createdat === today).length;
+  // Extraer el mes y año actuales
+  const mesActual = today.getMonth(); // 0-11 (enero es 0, diciembre es 11)
+  const añoActual = today.getFullYear();
+  // Filtrar clientes creados en el mes actual
+  const nuevosClientesMes = clients.filter((client) => {
+    // Convertir la fecha de creación a objeto Date
+    const fechaCreacion = new Date(client.createdat);
+    
+    // Comprobar si el mes y año coinciden con el actual
+    return fechaCreacion.getMonth() === mesActual && 
+          fechaCreacion.getFullYear() === añoActual;
+  }).length;
   const totalServiciosPendientes = orders.filter((order) => order.estado === 'pendiente').length;
 
 
@@ -59,7 +70,7 @@ export function DashboardStats({ clients, orders}: { clients: Clients[]; orders:
       {/* {loading ? <Skeleton className="w-[220px] h-[150px]" /> :  */}
       <StatsCard
         title="Clientes Nuevos"
-        value={nuevosClientesHoy}
+        value={nuevosClientesMes}
         icon={<Users className="h-5 w-5 text-cloud-dark" />}
         cambioPorcentual={variacionClientes.variacionPorcentual}
       />
