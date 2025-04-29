@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/client'
-import ical from 'ical-generator';
+// import ical from 'ical-generator';
 import { Resend } from 'resend';
 import ClientEmail from '@/components/mail/ClientEmail';
 import CompanyMail from '@/components/mail/EnterpriseMail';
 import { format } from 'date-fns-tz';
-import { addHours } from 'date-fns';
+// import { addHours } from 'date-fns';
 
 // GET /api/order
 export async function GET(request: Request) {
@@ -109,35 +109,35 @@ export async function POST(request: Request) {
 
     //3. Creamos correos diferentes para enviarle tanto al cliente como a la empresa sobre el pedido
     const eventDateObj = new Date(body.fecha_servicio); // Crear el objeto Date solo para manipulación
-    const endDateObj = addHours(eventDateObj, 2); // Agregar 2 horas a la fecha de servicio
+    // const endDateObj = addHours(eventDateObj, 2); // Agregar 2 horas a la fecha de servicio
 
     // Extraer la hora en formato HH:mm
     const hours = eventDateObj.getUTCHours().toString().padStart(2, '0');
     const minutes = eventDateObj.getUTCMinutes().toString().padStart(2, '0');
     //extraer las horas finales formato HH:mm
-    const endHours = endDateObj.getUTCHours().toString().padStart(2, '0');
-    const endMinutes = endDateObj.getUTCMinutes().toString().padStart(2, '0');
-    //extraer dia
-    const date = endDateObj.toISOString().split('T')[0];
+    // const endHours = endDateObj.getUTCHours().toString().padStart(2, '0');
+    // const endMinutes = endDateObj.getUTCMinutes().toString().padStart(2, '0');
+    // //extraer dia
+    // const date = endDateObj.toISOString().split('T')[0];
 
     const formattedEventDate = format(eventDateObj, 'd \'de\' MMMM \'de\' yyyy', { timeZone: 'UTC' });
 
-    // // Crear el calendario
-    const calendar = ical({
-      prodId: '//Rise And Shine//Rise&ShineWeb//ES',
-      events: [
-        {
-          start: `${date}T${hours}:${minutes}:00`,
-          end: `${date}T${endHours}:${endMinutes}:00`,
-          summary: `Servicio de Limpieza - ${formattedEventDate}`,
-          description: `El servicio de limpieza ha sido agendado para el día ${formattedEventDate}`,
-          organizer: {
-            name: 'Manuel José Zulueta',
-            email: 'Mzuluetacomparini@gmail.com'
-          },
-        }
-      ]
-    });
+    // Crear el calendario
+    // const calendar = ical({
+    //   prodId: '//Rise And Shine//Rise&ShineWeb//ES',
+    //   events: [
+    //     {
+    //       start: `${date}T${hours}:${minutes}:00`,
+    //       end: `${date}T${endHours}:${endMinutes}:00`,
+    //       summary: `Servicio de Limpieza - ${formattedEventDate}`,
+    //       description: `El servicio de limpieza ha sido agendado para el día ${formattedEventDate}`,
+    //       organizer: {
+    //         name: 'Manuel José Zulueta',
+    //         email: 'Mzuluetacomparini@gmail.com'
+    //       },
+    //     }
+    //   ]
+    // });
 
     const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
@@ -157,13 +157,13 @@ export async function POST(request: Request) {
         paymentMethod: '',
         paymentStatus: ''
       }),
-      attachments: [
-        {
-          filename: 'event.ics',
-          content: calendar.toString(),
-          contentType: 'text/calendar'
-        }
-      ]
+      // attachments: [
+      //   {
+      //     filename: 'event.ics',
+      //     content: calendar.toString(),
+      //     contentType: 'text/calendar'
+      //   }
+      // ]
     });
 
 
@@ -184,13 +184,13 @@ export async function POST(request: Request) {
         paymentMethod: '',
         paymentStatus: ''
       }),
-      attachments: [
-        {
-          filename: 'event.ics',
-          content: calendar.toString(),
-          contentType: 'text/calendar'
-        }
-      ]
+      // attachments: [
+      //   {
+      //     filename: 'event.ics',
+      //     content: calendar.toString(),
+      //     contentType: 'text/calendar'
+      //   }
+      // ]
     });
 
     return NextResponse.json(
